@@ -41,6 +41,14 @@
         "resolved": "3.1.4",
         "contentHash": "5mj99LvCqrq3CNi06xYdyIAXOEh+5b33F2nErCzI5zWiDdLHXiPXEWFSUAF8zlIv0ZWqjZNCwHTQeAPYbF3pCg=="
       },
+      "FsToolkit.ErrorHandling": {
+        "type": "Transitive",
+        "resolved": "4.18.0",
+        "contentHash": "cGtOP6lWcnLcXiLTGZLHi+8JAyuUDjGhZOmJWnZfd5aPCUIyL+DqUIwmfEGkUk3j/gpcchLDk9BNwUTc1oM30w==",
+        "dependencies": {
+          "FSharp.Core": "7.0.300"
+        }
+      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "17.14.1",
@@ -108,7 +116,8 @@
       "stravafetcher": {
         "type": "Project",
         "dependencies": {
-          "FSharp.Core": "[10.0.103, )"
+          "FSharp.Core": "[10.0.103, )",
+          "FsToolkit.ErrorHandling": "[4.18.0, )"
         }
       }
     }

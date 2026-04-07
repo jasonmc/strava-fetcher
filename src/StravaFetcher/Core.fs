@@ -5,7 +5,9 @@ open System.Collections.Generic
 open System.Globalization
 open System.Net.Http
 open System.Net.Http.Headers
+open System.Threading.Tasks
 open System.Text.Json
+open FsToolkit.ErrorHandling
 
 type StravaApiException(message: string) =
     inherit Exception(message)
@@ -32,22 +34,7 @@ module FetchError =
         | MissingTokenField fieldName -> $"Token refresh response did not include a {fieldName}"
         | Message message -> message
 
-module Result =
-    let mapError mapper result =
-        match result with
-        | Ok value -> Ok value
-        | Error error -> Error(mapper error)
-
-    let bind binder result =
-        match result with
-        | Ok value -> binder value
-        | Error error -> Error error
-
-    let map mapper result =
-        match result with
-        | Ok value -> Ok(mapper value)
-        | Error error -> Error error
-
+module ResultEx =
     let require predicate error value =
         if predicate value then Ok value else Error error
 
@@ -57,13 +44,6 @@ module Result =
         | Error error ->
             onError error
             result
-
-    type Builder() =
-        member _.Bind(result, binder) = bind binder result
-        member _.Return(value) = Ok value
-        member _.ReturnFrom(result) = result
-
-    let builder = Builder()
 
 module Env =
     let getRequired name =
@@ -155,7 +135,7 @@ module Http =
 
     let private unwrap result =
         result
-        |> Result.teeError (FetchError.render >> StravaApiException >> raise)
+        |> ResultEx.teeError (FetchError.render >> StravaApiException >> raise)
         |> function
             | Ok value -> value
             | Error _ -> failwith "unreachable"
@@ -167,7 +147,7 @@ module Http =
             let! body = response.Content.ReadAsStringAsync()
 
             return
-                Result.builder {
+                result {
                     do! ensureSuccessResult response body
                     do! ensureJsonResponseResult response body
                     return body
@@ -235,7 +215,7 @@ module Strava =
 
     let private unwrap result =
         result
-        |> Result.teeError (FetchError.render >> StravaApiException >> raise)
+        |> ResultEx.teeError (FetchError.render >> StravaApiException >> raise)
         |> function
             | Ok value -> value
             | Error _ -> failwith "unreachable"
@@ -243,7 +223,12 @@ module Strava =
     let private decodeResultAsync<'T> context bodyResultTask =
         task {
             let! bodyResult = bodyResultTask
-            return bodyResult |> Result.bind (Json.deserializeResult<'T> context)
+
+            return
+                result {
+                    let! body = bodyResult
+                    return! Json.deserializeResult<'T> context body
+                }
         }
 
     let private getDecodedResultAsync<'T> context path accessToken =
@@ -387,22 +372,24 @@ module App =
         { accessToken: string
           refreshToken: string }
 
-    let internal liveDependencies =
-        let inline run task =
-            task |> Async.AwaitTask |> Async.RunSynchronously
+    let private runTaskResult<'T> (task: Task<Result<'T, FetchError>>) =
+        task |> Async.AwaitTask |> Async.RunSynchronously
 
+    let internal liveDependencies =
         { refreshToken =
             fun clientId clientSecret refreshToken ->
-                Strava.refreshTokenResultAsync clientId clientSecret refreshToken |> run
-          getAthlete = fun accessToken -> Strava.getAthleteResultAsync accessToken |> run
-          getStats = fun accessToken athleteId -> Strava.getStatsResultAsync accessToken athleteId |> run
-          getActivitiesPage = fun accessToken page -> Strava.getActivitiesPageResultAsync accessToken page |> run }
+                Strava.refreshTokenResultAsync clientId clientSecret refreshToken
+                |> runTaskResult
+          getAthlete = fun accessToken -> Strava.getAthleteResultAsync accessToken |> runTaskResult
+          getStats = fun accessToken athleteId -> Strava.getStatsResultAsync accessToken athleteId |> runTaskResult
+          getActivitiesPage =
+            fun accessToken page -> Strava.getActivitiesPageResultAsync accessToken page |> runTaskResult }
 
     let private requireNonBlank error value =
-        value |> Result.require (String.IsNullOrWhiteSpace >> not) error
+        value |> ResultEx.require (String.IsNullOrWhiteSpace >> not) error
 
     let private validateTokenResponse (tokenResponse: TokenResponse) =
-        Result.builder {
+        result {
             let! accessToken = requireNonBlank (MissingTokenField "access_token") tokenResponse.access_token
 
             let! refreshToken = requireNonBlank (MissingTokenField "refresh_token") tokenResponse.refresh_token
@@ -439,11 +426,9 @@ module App =
             | None -> Ok []
 
     let internal fetchNormalizedJsonResult (dependencies: FetchDependencies) clientId clientSecret refreshToken =
-        Result.builder {
-            let! token =
-                dependencies.refreshToken clientId clientSecret refreshToken
-                |> Result.bind validateTokenResponse
-
+        result {
+            let! tokenResponse = dependencies.refreshToken clientId clientSecret refreshToken
+            let! token = validateTokenResponse tokenResponse
             let! athlete = dependencies.getAthlete token.accessToken
             let! stats = dependencies.getStats token.accessToken athlete.id
             let! activities = fetchAllActivities dependencies.getActivitiesPage token.accessToken
@@ -457,7 +442,7 @@ module App =
         | Error error -> raise (StravaApiException(FetchError.render error))
 
     let fetchNormalizedJsonFromEnv () =
-        Result.builder {
+        result {
             let! clientId = Env.getRequired "STRAVA_CLIENT_ID"
             let! clientSecret = Env.getRequired "STRAVA_CLIENT_SECRET"
             let! refreshToken = Env.getRequired "STRAVA_REFRESH_TOKEN"

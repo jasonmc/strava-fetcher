@@ -7,6 +7,15 @@
         "requested": "[10.0.103, )",
         "resolved": "10.0.103",
         "contentHash": "4bfehfVRrfSPpt/hdx8nTsPcqr/w5leYJMwVeIKTrpB8Pugq/VIwdOn+hwhnFVvKOMh2hA6moSA/XEEokEu2TA=="
+      },
+      "FsToolkit.ErrorHandling": {
+        "type": "Direct",
+        "requested": "[4.18.0, )",
+        "resolved": "4.18.0",
+        "contentHash": "cGtOP6lWcnLcXiLTGZLHi+8JAyuUDjGhZOmJWnZfd5aPCUIyL+DqUIwmfEGkUk3j/gpcchLDk9BNwUTc1oM30w==",
+        "dependencies": {
+          "FSharp.Core": "7.0.300"
+        }
       }
     }
   }
