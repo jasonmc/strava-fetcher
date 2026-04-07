@@ -169,28 +169,34 @@ module FailureTests =
         use response =
             jsonResponse HttpStatusCode.OK "OK" "text/html" "<html><body>nope</body></html>" "https://example.invalid"
 
-        let ex = Assert.Throws<StravaApiException>(fun () -> Http.ensureJsonResponse response "<html><body>nope</body></html>")
-        Assert.Contains("Expected JSON response", ex.Message)
-        Assert.Contains("text/html", ex.Message)
+        match Http.ensureJsonResponseResult response "<html><body>nope</body></html>" with
+        | Ok () -> failwith "expected Error for html response"
+        | Error error ->
+            Assert.Contains("Expected JSON response", error)
+            Assert.Contains("text/html", error)
 
     [<Fact>]
     let ``ensureSuccess includes status and url`` () =
         use response =
             jsonResponse HttpStatusCode.BadRequest "Bad Request" "application/json" """{"message":"bad"}""" "https://example.invalid/fail"
 
-        let ex = Assert.Throws<StravaApiException>(fun () -> Http.ensureSuccess response """{"message":"bad"}""")
-        Assert.Contains("HTTP 400 (Bad Request)", ex.Message)
-        Assert.Contains("https://example.invalid/fail", ex.Message)
+        match Http.ensureSuccessResult response """{"message":"bad"}""" with
+        | Ok () -> failwith "expected Error for bad response"
+        | Error error ->
+            Assert.Contains("HTTP 400 (Bad Request)", error)
+            Assert.Contains("https://example.invalid/fail", error)
 
     [<Fact>]
     let ``deserializeRequired fails on malformed json`` () =
-        let ex = Assert.Throws<StravaApiException>(fun () -> Json.deserializeRequired<TokenResponse> "token response" "{not-json}" |> ignore)
-        Assert.Contains("Failed to decode token response JSON", ex.Message)
+        match Json.deserializeResult<TokenResponse> "token response" "{not-json}" with
+        | Ok _ -> failwith "expected Error for malformed json"
+        | Error error -> Assert.Contains("Failed to decode token response JSON", error)
 
     [<Fact>]
     let ``deserializeRequired fails on null json`` () =
-        let ex = Assert.Throws<StravaApiException>(fun () -> Json.deserializeRequired<TokenResponse> "token response" "null" |> ignore)
-        Assert.Equal("Decoded JSON for token response was null", ex.Message)
+        match Json.deserializeResult<TokenResponse> "token response" "null" with
+        | Ok _ -> failwith "expected Error for null json"
+        | Error error -> Assert.Equal("Decoded JSON for token response was null", error)
 
     [<Fact>]
     let ``fetchNormalizedJson preserves rotated token and stops paginating on empty page`` () =
@@ -201,30 +207,33 @@ module FailureTests =
 
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> { access_token = "access-123"; refresh_token = "refresh-456" }
+                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "refresh-456" }
                 getAthlete = fun accessToken ->
                     expectAccessToken accessToken
-                    athlete
+                    Ok athlete
                 getStats = fun accessToken athleteId ->
                     expectAccessToken accessToken
                     if athleteId <> 42L then
                         failwith $"unexpected athlete id %d{athleteId}"
-                    stats
+                    Ok stats
                 getActivitiesPage = fun accessToken page ->
                     expectAccessToken accessToken
                     seenPages.Add(page)
 
                     match page with
                     | 1 ->
-                        [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None
-                           activity "2026-01-02T10:00:00Z" 5000.0 1200 10.0 "Run" None |]
+                        Ok
+                            [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None
+                               activity "2026-01-02T10:00:00Z" 5000.0 1200 10.0 "Run" None |]
                     | 2 ->
-                        [| activity "2026-01-03T10:00:00Z" 3218.68 1800 20.0 "Ride" None |]
-                    | 3 -> [||]
+                        Ok [| activity "2026-01-03T10:00:00Z" 3218.68 1800 20.0 "Ride" None |]
+                    | 3 -> Ok [||]
                     | _ -> failwith $"unexpected page %d{page}" }
 
         let latestRefreshToken, json =
-            App.fetchNormalizedJson dependencies "client-id" "client-secret" "old-refresh-token"
+            match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
+            | Ok value -> value
+            | Error error -> failwith error
 
         Assert.Equal("refresh-456", latestRefreshToken)
         Assert.Equal<int[]>([| 1; 2; 3 |], seenPages |> Seq.toArray)
@@ -237,11 +246,52 @@ module FailureTests =
     let ``fetchNormalizedJson fails on missing rotated refresh token`` () =
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> { access_token = "access-123"; refresh_token = "" } }
+                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "" } }
 
-        let ex =
-            Assert.Throws<StravaApiException>(fun () ->
-                App.fetchNormalizedJson dependencies "client-id" "client-secret" "old-refresh-token"
-                |> ignore)
+        let result = App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
 
-        Assert.Equal("Token refresh response did not include a refresh_token", ex.Message)
+        match result with
+        | Ok _ -> failwith "expected Error for missing rotated refresh token"
+        | Error error -> Assert.Equal("Token refresh response did not include a refresh_token", error)
+
+    [<Fact>]
+    let ``fetchNormalizedJsonResult fails on missing access token`` () =
+        let dependencies =
+            { App.liveDependencies with
+                refreshToken = fun _ _ _ -> Ok { access_token = ""; refresh_token = "refresh-456" } }
+
+        let result = App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
+
+        match result with
+        | Ok _ -> failwith "expected Error for missing access token"
+        | Error error -> Assert.Equal("Token refresh response did not include an access_token", error)
+
+    [<Fact>]
+    let ``getRequired returns error instead of throwing`` () =
+        let name = "STRAVA_FETCHER_TEST_REQUIRED_ENV_RESULT"
+        let original = Environment.GetEnvironmentVariable(name)
+
+        try
+            Environment.SetEnvironmentVariable(name, null)
+            match Env.getRequired name with
+            | Ok _ -> failwith "expected Error for missing env var"
+            | Error error -> Assert.Equal($"Missing required environment variable: {name}", error)
+        finally
+            Environment.SetEnvironmentVariable(name, original)
+
+    [<Fact>]
+    let ``fetchNormalizedJsonResult returns page fetch error`` () =
+        let dependencies =
+            { App.liveDependencies with
+                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "refresh-456" }
+                getAthlete = fun _ -> Ok athlete
+                getStats = fun _ _ -> Ok stats
+                getActivitiesPage = fun _ page ->
+                    match page with
+                    | 1 -> Ok [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None |]
+                    | 2 -> Error "boom page 2"
+                    | _ -> Ok [||] }
+
+        match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
+        | Ok _ -> failwith "expected Error for page fetch failure"
+        | Error error -> Assert.Equal("boom page 2", error)

@@ -10,12 +10,36 @@ open System.Text.Json
 type StravaApiException(message: string) =
     inherit Exception(message)
 
+module Result =
+    let mapError mapper result =
+        match result with
+        | Ok value -> Ok value
+        | Error error -> Error(mapper error)
+
+    let bind binder result =
+        match result with
+        | Ok value -> binder value
+        | Error error -> Error error
+
+    let map mapper result =
+        match result with
+        | Ok value -> Ok(mapper value)
+        | Error error -> Error error
+
+    let require predicate error value =
+        if predicate value then Ok value else Error error
+
 module Env =
-    let require name =
+    let getRequired name =
         match Environment.GetEnvironmentVariable(name) with
         | null
-        | "" -> raise (StravaApiException($"Missing required environment variable: {name}"))
-        | value -> value
+        | "" -> Error($"Missing required environment variable: {name}")
+        | value -> Ok value
+
+    let require name =
+        match getRequired name with
+        | Ok value -> value
+        | Error error -> raise (StravaApiException(error))
 
 module Json =
     let options =
@@ -24,16 +48,19 @@ module Json =
             WriteIndented = true
         )
 
-    let deserializeRequired<'T> context (content: string) =
+    let deserializeResult<'T> context (content: string) =
         try
             match JsonSerializer.Deserialize<'T>(content, options) with
-            | null -> raise (StravaApiException($"Decoded JSON for {context} was null"))
-            | value -> value
+            | null -> Error($"Decoded JSON for {context} was null")
+            | value -> Ok value
         with
-        | :? StravaApiException ->
-            reraise ()
         | ex ->
-            raise (StravaApiException($"Failed to decode {context} JSON: {ex.Message}"))
+            Error($"Failed to decode {context} JSON: {ex.Message}")
+
+    let deserializeRequired<'T> context (content: string) =
+        match deserializeResult<'T> context content with
+        | Ok value -> value
+        | Error error -> raise (StravaApiException(error))
 
 module Http =
     let client =
@@ -47,7 +74,7 @@ module Http =
         elif body.Length <= 400 then body
         else body.Substring(0, 400) + "..."
 
-    let ensureJsonResponse (response: HttpResponseMessage) (body: string) =
+    let ensureJsonResponseResult (response: HttpResponseMessage) (body: string) =
         let mediaType =
             match response.Content.Headers.ContentType with
             | null -> ""
@@ -57,13 +84,16 @@ module Http =
                 | value -> value
 
         if not (String.IsNullOrWhiteSpace(mediaType)) && not (mediaType.Contains("json", StringComparison.OrdinalIgnoreCase)) then
-            raise (
-                StravaApiException(
-                    $"Expected JSON response but received content-type '{mediaType}' with body: {trimBody body}"
-                )
-            )
+            Error($"Expected JSON response but received content-type '{mediaType}' with body: {trimBody body}")
+        else
+            Ok ()
 
-    let ensureSuccess (response: HttpResponseMessage) (body: string) =
+    let ensureJsonResponse (response: HttpResponseMessage) (body: string) =
+        match ensureJsonResponseResult response body with
+        | Ok () -> ()
+        | Error error -> raise (StravaApiException(error))
+
+    let ensureSuccessResult (response: HttpResponseMessage) (body: string) =
         if not response.IsSuccessStatusCode then
             let requestUri =
                 match response.RequestMessage with
@@ -73,13 +103,16 @@ module Http =
                     | null -> "<unknown-url>"
                     | uri -> uri.ToString()
 
-            raise (
-                StravaApiException(
-                    $"HTTP {(int response.StatusCode)} ({response.ReasonPhrase}) from {requestUri}: {trimBody body}"
-                )
-            )
+            Error($"HTTP {(int response.StatusCode)} ({response.ReasonPhrase}) from {requestUri}: {trimBody body}")
+        else
+            Ok ()
 
-    let postFormAsync (url: string) (pairs: (string * string) list) =
+    let ensureSuccess (response: HttpResponseMessage) (body: string) =
+        match ensureSuccessResult response body with
+        | Ok () -> ()
+        | Error error -> raise (StravaApiException(error))
+
+    let postFormResultAsync (url: string) (pairs: (string * string) list) =
         task {
             use content =
                 new FormUrlEncodedContent(
@@ -89,20 +122,44 @@ module Http =
 
             use! response = client.PostAsync(url, content)
             let! body = response.Content.ReadAsStringAsync()
-            ensureSuccess response body
-            ensureJsonResponse response body
-            return body
+
+            return
+                ensureSuccessResult response body
+                |> Result.bind (fun () -> ensureJsonResponseResult response body)
+                |> Result.map (fun () -> body)
         }
 
-    let getJsonAsync (url: string) (accessToken: string) =
+    let postFormAsync (url: string) (pairs: (string * string) list) =
+        task {
+            let! result = postFormResultAsync url pairs
+
+            return
+                match result with
+                | Ok body -> body
+                | Error error -> raise (StravaApiException(error))
+        }
+
+    let getJsonResultAsync (url: string) (accessToken: string) =
         task {
             use request = new HttpRequestMessage(HttpMethod.Get, url)
             request.Headers.Authorization <- AuthenticationHeaderValue("Bearer", accessToken)
             use! response = client.SendAsync(request)
             let! body = response.Content.ReadAsStringAsync()
-            ensureSuccess response body
-            ensureJsonResponse response body
-            return body
+
+            return
+                ensureSuccessResult response body
+                |> Result.bind (fun () -> ensureJsonResponseResult response body)
+                |> Result.map (fun () -> body)
+        }
+
+    let getJsonAsync (url: string) (accessToken: string) =
+        task {
+            let! result = getJsonResultAsync url accessToken
+
+            return
+                match result with
+                | Ok body -> body
+                | Error error -> raise (StravaApiException(error))
         }
 
 type TokenResponse =
@@ -138,41 +195,77 @@ type Activity =
 module Strava =
     let private baseUrl = "https://www.strava.com"
 
-    let refreshTokenAsync clientId clientSecret refreshToken =
+    let refreshTokenResultAsync clientId clientSecret refreshToken =
         task {
-            let! body =
-                Http.postFormAsync
+            let! bodyResult =
+                Http.postFormResultAsync
                     $"{baseUrl}/oauth/token"
                     [ "client_id", clientId
                       "client_secret", clientSecret
                       "refresh_token", refreshToken
                       "grant_type", "refresh_token" ]
 
-            let parsed = Json.deserializeRequired<TokenResponse> "token response" body
-            return parsed
+            return bodyResult |> Result.bind (Json.deserializeResult<TokenResponse> "token response")
+        }
+
+    let refreshTokenAsync clientId clientSecret refreshToken =
+        task {
+            let! result = refreshTokenResultAsync clientId clientSecret refreshToken
+
+            return
+                match result with
+                | Ok value -> value
+                | Error error -> raise (StravaApiException(error))
+        }
+
+    let getAthleteResultAsync accessToken =
+        task {
+            let! bodyResult = Http.getJsonResultAsync $"{baseUrl}/api/v3/athlete" accessToken
+            return bodyResult |> Result.bind (Json.deserializeResult<Athlete> "athlete")
         }
 
     let getAthleteAsync accessToken =
         task {
-            let! body = Http.getJsonAsync $"{baseUrl}/api/v3/athlete" accessToken
-            let parsed = Json.deserializeRequired<Athlete> "athlete" body
-            return parsed
+            let! result = getAthleteResultAsync accessToken
+
+            return
+                match result with
+                | Ok value -> value
+                | Error error -> raise (StravaApiException(error))
+        }
+
+    let getStatsResultAsync accessToken athleteId =
+        task {
+            let! bodyResult = Http.getJsonResultAsync $"{baseUrl}/api/v3/athletes/{athleteId}/stats" accessToken
+            return bodyResult |> Result.bind (Json.deserializeResult<AthleteStats> "athlete stats")
         }
 
     let getStatsAsync accessToken athleteId =
         task {
-            let! body = Http.getJsonAsync $"{baseUrl}/api/v3/athletes/{athleteId}/stats" accessToken
-            let parsed = Json.deserializeRequired<AthleteStats> "athlete stats" body
-            return parsed
+            let! result = getStatsResultAsync accessToken athleteId
+
+            return
+                match result with
+                | Ok value -> value
+                | Error error -> raise (StravaApiException(error))
+        }
+
+    let getActivitiesPageResultAsync accessToken page =
+        task {
+            let! bodyResult =
+                Http.getJsonResultAsync $"{baseUrl}/api/v3/athlete/activities?per_page=200&page={page}" accessToken
+
+            return bodyResult |> Result.bind (Json.deserializeResult<Activity array> $"activities page {page}")
         }
 
     let getActivitiesPageAsync accessToken page =
         task {
-            let! body =
-                Http.getJsonAsync $"{baseUrl}/api/v3/athlete/activities?per_page=200&page={page}" accessToken
+            let! result = getActivitiesPageResultAsync accessToken page
 
-            let parsed = Json.deserializeRequired<Activity array> $"activities page {page}" body
-            return parsed
+            return
+                match result with
+                | Ok value -> value
+                | Error error -> raise (StravaApiException(error))
         }
 
 module Normalize =
@@ -261,58 +354,99 @@ module Normalize =
 
 module App =
     type internal FetchDependencies =
-        { refreshToken: string -> string -> string -> TokenResponse
-          getAthlete: string -> Athlete
-          getStats: string -> int64 -> AthleteStats
-          getActivitiesPage: string -> int -> Activity array }
+        { refreshToken: string -> string -> string -> Result<TokenResponse, string>
+          getAthlete: string -> Result<Athlete, string>
+          getStats: string -> int64 -> Result<AthleteStats, string>
+          getActivitiesPage: string -> int -> Result<Activity array, string> }
+
+    type internal ValidTokenResponse =
+        { accessToken: string
+          refreshToken: string }
 
     let internal liveDependencies =
         { refreshToken =
             fun clientId clientSecret refreshToken ->
-                Strava.refreshTokenAsync clientId clientSecret refreshToken
+                Strava.refreshTokenResultAsync clientId clientSecret refreshToken
                 |> Async.AwaitTask
                 |> Async.RunSynchronously
           getAthlete =
             fun accessToken ->
-                Strava.getAthleteAsync accessToken
+                Strava.getAthleteResultAsync accessToken
                 |> Async.AwaitTask
                 |> Async.RunSynchronously
           getStats =
             fun accessToken athleteId ->
-                Strava.getStatsAsync accessToken athleteId
+                Strava.getStatsResultAsync accessToken athleteId
                 |> Async.AwaitTask
                 |> Async.RunSynchronously
           getActivitiesPage =
             fun accessToken page ->
-                Strava.getActivitiesPageAsync accessToken page
+                Strava.getActivitiesPageResultAsync accessToken page
                 |> Async.AwaitTask
                 |> Async.RunSynchronously }
 
-    let internal fetchNormalizedJson dependencies clientId clientSecret refreshToken =
-        let tokenResponse = dependencies.refreshToken clientId clientSecret refreshToken
+    let private requireNonBlank error value =
+        value
+        |> Result.require (String.IsNullOrWhiteSpace >> not) error
 
-        if String.IsNullOrWhiteSpace(tokenResponse.access_token) then
-            raise (StravaApiException("Token refresh response did not include an access_token"))
+    let private validateTokenResponse (tokenResponse: TokenResponse) =
+        requireNonBlank "Token refresh response did not include an access_token" tokenResponse.access_token
+        |> Result.bind (fun accessToken ->
+            requireNonBlank "Token refresh response did not include a refresh_token" tokenResponse.refresh_token
+            |> Result.map (fun refreshToken ->
+                { accessToken = accessToken
+                  refreshToken = refreshToken }))
 
-        if String.IsNullOrWhiteSpace(tokenResponse.refresh_token) then
-            raise (StravaApiException("Token refresh response did not include a refresh_token"))
+    let private fetchAllActivities (getActivitiesPage: string -> int -> Result<Activity array, string>) (accessToken: string) =
+        Seq.initInfinite ((+) 1)
+        |> Seq.map (fun page -> getActivitiesPage accessToken page)
+        |> Seq.scan
+            (fun state next ->
+                match state with
+                | Error error -> Error error
+                | Ok (true, activities) ->
+                    match next with
+                    | Error error -> Error error
+                    | Ok pageActivities when pageActivities.Length = 0 -> Ok(false, activities)
+                    | Ok pageActivities -> Ok(true, List.append activities (List.ofArray pageActivities))
+                | Ok (false, activities) -> Ok(false, activities))
+            (Ok(true, []))
+        |> Seq.skip 1
+        |> Seq.tryFind (function
+            | Error _ -> true
+            | Ok(continuePaging, _) -> not continuePaging)
+        |> function
+            | Some (Error error) -> Error error
+            | Some (Ok (_, activities)) -> Ok activities
+            | None -> Ok []
 
-        let athlete = dependencies.getAthlete tokenResponse.access_token
-        let stats = dependencies.getStats tokenResponse.access_token athlete.id
+    let internal fetchNormalizedJsonResult (dependencies: FetchDependencies) clientId clientSecret refreshToken =
+        dependencies.refreshToken clientId clientSecret refreshToken
+        |> Result.bind validateTokenResponse
+        |> Result.bind (fun (token: ValidTokenResponse) ->
+            dependencies.getAthlete token.accessToken
+            |> Result.bind (fun athlete ->
+                dependencies.getStats token.accessToken athlete.id
+                |> Result.bind (fun stats ->
+                    fetchAllActivities dependencies.getActivitiesPage token.accessToken
+                    |> Result.map (fun activities ->
+                        let normalized = Normalize.build athlete stats activities
+                        let json = JsonSerializer.Serialize(normalized, Json.options)
+                        token.refreshToken, json))))
 
-        let activities =
-            Seq.initInfinite (fun index -> index + 1)
-            |> Seq.map (fun page -> dependencies.getActivitiesPage tokenResponse.access_token page)
-            |> Seq.takeWhile (fun pageActivities -> pageActivities.Length > 0)
-            |> Seq.collect id
-            |> Seq.toList
-
-        let normalized = Normalize.build athlete stats activities
-        let json = JsonSerializer.Serialize(normalized, Json.options)
-        tokenResponse.refresh_token, json
+    let internal fetchNormalizedJson (dependencies: FetchDependencies) clientId clientSecret refreshToken =
+        match fetchNormalizedJsonResult dependencies clientId clientSecret refreshToken with
+        | Ok value -> value
+        | Error error -> raise (StravaApiException(error))
 
     let fetchNormalizedJsonFromEnv () =
-        let clientId = Env.require "STRAVA_CLIENT_ID"
-        let clientSecret = Env.require "STRAVA_CLIENT_SECRET"
-        let refreshToken = Env.require "STRAVA_REFRESH_TOKEN"
-        fetchNormalizedJson liveDependencies clientId clientSecret refreshToken
+        Env.getRequired "STRAVA_CLIENT_ID"
+        |> Result.bind (fun clientId ->
+            Env.getRequired "STRAVA_CLIENT_SECRET"
+            |> Result.bind (fun clientSecret ->
+                Env.getRequired "STRAVA_REFRESH_TOKEN"
+                |> Result.bind (fun refreshToken ->
+                    fetchNormalizedJsonResult liveDependencies clientId clientSecret refreshToken)))
+        |> function
+            | Ok value -> value
+            | Error error -> raise (StravaApiException(error))
