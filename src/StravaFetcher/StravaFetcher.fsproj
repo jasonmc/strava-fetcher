@@ -13,6 +13,12 @@
 
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Core.fs" />
+    <Compile Include="Errors.fs" />
+    <Compile Include="Support.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Http.fs" />
+    <Compile Include="Strava.fs" />
+    <Compile Include="Normalize.fs" />
+    <Compile Include="App.fs" />
   </ItemGroup>
 </Project>
