@@ -1,0 +1,72 @@
+name: Refresh Strava Snapshot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TARGET_REPO: ${{ vars.TARGET_REPO }}
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+
+      - name: Run Strava fetcher
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          nix run . > strava-stats.json 2> strava-fetcher.stderr
+          if grep -q '<html' strava-stats.json; then
+            echo "CLI emitted HTML instead of JSON" >&2
+            exit 1
+          fi
+          jq empty strava-stats.json
+
+      - name: Preserve rotated refresh token
+        env:
+          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN }}
+        run: |
+          set -euo pipefail
+          latest_token="$(sed -n 's/^Latest STRAVA_REFRESH_TOKEN=//p' strava-fetcher.stderr | tail -n 1)"
+          if [ -z "${latest_token}" ]; then
+            echo "Failed to extract rotated refresh token from stderr" >&2
+            echo "CLI stderr was:" >&2
+            cat strava-fetcher.stderr >&2
+            exit 1
+          fi
+          if [ "${latest_token}" != "${{ secrets.STRAVA_REFRESH_TOKEN }}" ]; then
+            gh secret set STRAVA_REFRESH_TOKEN --repo "${GITHUB_REPOSITORY}" --body "${latest_token}"
+          fi
+
+      - name: Publish snapshot to target repo
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.AUTOMATION_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TARGET_REPO}" ]; then
+            echo "Missing required repository variable: TARGET_REPO" >&2
+            exit 1
+          fi
+          git clone "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${TARGET_REPO}.git" target-repo
+          cp strava-stats.json target-repo/strava-stats.json
+          cd target-repo
+          if git diff --quiet -- strava-stats.json; then
+            echo "No JSON changes detected; skipping commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add strava-stats.json
+          git commit -m "Update Strava stats snapshot"
+          git push origin HEAD
