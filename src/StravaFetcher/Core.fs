@@ -29,6 +29,20 @@ module Result =
     let require predicate error value =
         if predicate value then Ok value else Error error
 
+    let teeError onError result =
+        match result with
+        | Ok _ -> result
+        | Error error ->
+            onError error
+            result
+
+    type Builder() =
+        member _.Bind(result, binder) = bind binder result
+        member _.Return(value) = Ok value
+        member _.ReturnFrom(result) = result
+
+    let builder = Builder()
+
 module Env =
     let getRequired name =
         match Environment.GetEnvironmentVariable(name) with
@@ -57,6 +71,9 @@ module Json =
         match deserializeResult<'T> context content with
         | Ok value -> value
         | Error error -> raise (StravaApiException(error))
+
+    let serialize value =
+        JsonSerializer.Serialize(value, options)
 
 module Http =
     let client =
@@ -111,51 +128,52 @@ module Http =
         | Ok() -> ()
         | Error error -> raise (StravaApiException(error))
 
-    let postFormResultAsync (url: string) (pairs: (string * string) list) =
+    let private unwrap result =
+        result
+        |> Result.teeError (StravaApiException >> raise)
+        |> function
+            | Ok value -> value
+            | Error _ -> failwith "unreachable"
+
+    let private sendResultAsync (requestFactory: unit -> HttpRequestMessage) =
         task {
-            use content =
-                new FormUrlEncodedContent(pairs |> Seq.map (fun (k, v) -> KeyValuePair<string, string>(k, v)))
-
-            use! response = client.PostAsync(url, content)
-            let! body = response.Content.ReadAsStringAsync()
-
-            return
-                ensureSuccessResult response body
-                |> Result.bind (fun () -> ensureJsonResponseResult response body)
-                |> Result.map (fun () -> body)
-        }
-
-    let postFormAsync (url: string) (pairs: (string * string) list) =
-        task {
-            let! result = postFormResultAsync url pairs
-
-            return
-                match result with
-                | Ok body -> body
-                | Error error -> raise (StravaApiException(error))
-        }
-
-    let getJsonResultAsync (url: string) (accessToken: string) =
-        task {
-            use request = new HttpRequestMessage(HttpMethod.Get, url)
-            request.Headers.Authorization <- AuthenticationHeaderValue("Bearer", accessToken)
+            use request = requestFactory ()
             use! response = client.SendAsync(request)
             let! body = response.Content.ReadAsStringAsync()
 
             return
-                ensureSuccessResult response body
-                |> Result.bind (fun () -> ensureJsonResponseResult response body)
-                |> Result.map (fun () -> body)
+                Result.builder {
+                    do! ensureSuccessResult response body
+                    do! ensureJsonResponseResult response body
+                    return body
+                }
         }
+
+    let postFormResultAsync (url: string) (pairs: (string * string) list) =
+        sendResultAsync (fun () ->
+            let request = new HttpRequestMessage(HttpMethod.Post, url)
+
+            request.Content <-
+                new FormUrlEncodedContent(pairs |> Seq.map (fun (k, v) -> KeyValuePair<string, string>(k, v)))
+
+            request)
+
+    let postFormAsync (url: string) (pairs: (string * string) list) =
+        task {
+            let! bodyResult = postFormResultAsync url pairs
+            return unwrap bodyResult
+        }
+
+    let getJsonResultAsync (url: string) (accessToken: string) =
+        sendResultAsync (fun () ->
+            let request = new HttpRequestMessage(HttpMethod.Get, url)
+            request.Headers.Authorization <- AuthenticationHeaderValue("Bearer", accessToken)
+            request)
 
     let getJsonAsync (url: string) (accessToken: string) =
         task {
-            let! result = getJsonResultAsync url accessToken
-
-            return
-                match result with
-                | Ok body -> body
-                | Error error -> raise (StravaApiException(error))
+            let! bodyResult = getJsonResultAsync url accessToken
+            return unwrap bodyResult
         }
 
 type TokenResponse =
@@ -190,81 +208,66 @@ type Activity =
 module Strava =
     let private baseUrl = "https://www.strava.com"
 
-    let refreshTokenResultAsync clientId clientSecret refreshToken =
-        task {
-            let! bodyResult =
-                Http.postFormResultAsync
-                    $"{baseUrl}/oauth/token"
-                    [ "client_id", clientId
-                      "client_secret", clientSecret
-                      "refresh_token", refreshToken
-                      "grant_type", "refresh_token" ]
+    let private unwrap result =
+        result
+        |> Result.teeError (StravaApiException >> raise)
+        |> function
+            | Ok value -> value
+            | Error _ -> failwith "unreachable"
 
-            return
-                bodyResult
-                |> Result.bind (Json.deserializeResult<TokenResponse> "token response")
+    let private decodeResultAsync<'T> context bodyResultTask =
+        task {
+            let! bodyResult = bodyResultTask
+            return bodyResult |> Result.bind (Json.deserializeResult<'T> context)
         }
+
+    let private getDecodedResultAsync<'T> context path accessToken =
+        Http.getJsonResultAsync $"{baseUrl}{path}" accessToken
+        |> decodeResultAsync<'T> context
+
+    let private getDecodedAsync<'T> context path accessToken =
+        task {
+            let! valueResult = getDecodedResultAsync<'T> context path accessToken
+            return unwrap valueResult
+        }
+
+    let refreshTokenResultAsync clientId clientSecret refreshToken =
+        Http.postFormResultAsync
+            $"{baseUrl}/oauth/token"
+            [ "client_id", clientId
+              "client_secret", clientSecret
+              "refresh_token", refreshToken
+              "grant_type", "refresh_token" ]
+        |> decodeResultAsync<TokenResponse> "token response"
 
     let refreshTokenAsync clientId clientSecret refreshToken =
         task {
             let! result = refreshTokenResultAsync clientId clientSecret refreshToken
-
-            return
-                match result with
-                | Ok value -> value
-                | Error error -> raise (StravaApiException(error))
+            return unwrap result
         }
 
     let getAthleteResultAsync accessToken =
-        task {
-            let! bodyResult = Http.getJsonResultAsync $"{baseUrl}/api/v3/athlete" accessToken
-            return bodyResult |> Result.bind (Json.deserializeResult<Athlete> "athlete")
-        }
+        getDecodedResultAsync<Athlete> "athlete" "/api/v3/athlete" accessToken
 
     let getAthleteAsync accessToken =
-        task {
-            let! result = getAthleteResultAsync accessToken
-
-            return
-                match result with
-                | Ok value -> value
-                | Error error -> raise (StravaApiException(error))
-        }
+        getDecodedAsync<Athlete> "athlete" "/api/v3/athlete" accessToken
 
     let getStatsResultAsync accessToken athleteId =
-        task {
-            let! bodyResult = Http.getJsonResultAsync $"{baseUrl}/api/v3/athletes/{athleteId}/stats" accessToken
-            return bodyResult |> Result.bind (Json.deserializeResult<AthleteStats> "athlete stats")
-        }
+        getDecodedResultAsync<AthleteStats> "athlete stats" $"/api/v3/athletes/{athleteId}/stats" accessToken
 
     let getStatsAsync accessToken athleteId =
-        task {
-            let! result = getStatsResultAsync accessToken athleteId
-
-            return
-                match result with
-                | Ok value -> value
-                | Error error -> raise (StravaApiException(error))
-        }
+        getDecodedAsync<AthleteStats> "athlete stats" $"/api/v3/athletes/{athleteId}/stats" accessToken
 
     let getActivitiesPageResultAsync accessToken page =
-        task {
-            let! bodyResult =
-                Http.getJsonResultAsync $"{baseUrl}/api/v3/athlete/activities?per_page=200&page={page}" accessToken
-
-            return
-                bodyResult
-                |> Result.bind (Json.deserializeResult<Activity array> $"activities page {page}")
-        }
+        getDecodedResultAsync<Activity array>
+            $"activities page {page}"
+            $"/api/v3/athlete/activities?per_page=200&page={page}"
+            accessToken
 
     let getActivitiesPageAsync accessToken page =
         task {
             let! result = getActivitiesPageResultAsync accessToken page
-
-            return
-                match result with
-                | Ok value -> value
-                | Error error -> raise (StravaApiException(error))
+            return unwrap result
         }
 
 module Normalize =
@@ -360,37 +363,31 @@ module App =
           refreshToken: string }
 
     let internal liveDependencies =
+        let inline run task =
+            task |> Async.AwaitTask |> Async.RunSynchronously
+
         { refreshToken =
             fun clientId clientSecret refreshToken ->
-                Strava.refreshTokenResultAsync clientId clientSecret refreshToken
-                |> Async.AwaitTask
-                |> Async.RunSynchronously
-          getAthlete =
-            fun accessToken ->
-                Strava.getAthleteResultAsync accessToken
-                |> Async.AwaitTask
-                |> Async.RunSynchronously
-          getStats =
-            fun accessToken athleteId ->
-                Strava.getStatsResultAsync accessToken athleteId
-                |> Async.AwaitTask
-                |> Async.RunSynchronously
-          getActivitiesPage =
-            fun accessToken page ->
-                Strava.getActivitiesPageResultAsync accessToken page
-                |> Async.AwaitTask
-                |> Async.RunSynchronously }
+                Strava.refreshTokenResultAsync clientId clientSecret refreshToken |> run
+          getAthlete = fun accessToken -> Strava.getAthleteResultAsync accessToken |> run
+          getStats = fun accessToken athleteId -> Strava.getStatsResultAsync accessToken athleteId |> run
+          getActivitiesPage = fun accessToken page -> Strava.getActivitiesPageResultAsync accessToken page |> run }
 
     let private requireNonBlank error value =
         value |> Result.require (String.IsNullOrWhiteSpace >> not) error
 
     let private validateTokenResponse (tokenResponse: TokenResponse) =
-        requireNonBlank "Token refresh response did not include an access_token" tokenResponse.access_token
-        |> Result.bind (fun accessToken ->
-            requireNonBlank "Token refresh response did not include a refresh_token" tokenResponse.refresh_token
-            |> Result.map (fun refreshToken ->
+        Result.builder {
+            let! accessToken =
+                requireNonBlank "Token refresh response did not include an access_token" tokenResponse.access_token
+
+            let! refreshToken =
+                requireNonBlank "Token refresh response did not include a refresh_token" tokenResponse.refresh_token
+
+            return
                 { accessToken = accessToken
-                  refreshToken = refreshToken }))
+                  refreshToken = refreshToken }
+        }
 
     let private fetchAllActivities
         (getActivitiesPage: string -> int -> Result<Activity array, string>)
@@ -419,18 +416,17 @@ module App =
             | None -> Ok []
 
     let internal fetchNormalizedJsonResult (dependencies: FetchDependencies) clientId clientSecret refreshToken =
-        dependencies.refreshToken clientId clientSecret refreshToken
-        |> Result.bind validateTokenResponse
-        |> Result.bind (fun (token: ValidTokenResponse) ->
-            dependencies.getAthlete token.accessToken
-            |> Result.bind (fun athlete ->
-                dependencies.getStats token.accessToken athlete.id
-                |> Result.bind (fun stats ->
-                    fetchAllActivities dependencies.getActivitiesPage token.accessToken
-                    |> Result.map (fun activities ->
-                        let normalized = Normalize.build athlete stats activities
-                        let json = JsonSerializer.Serialize(normalized, Json.options)
-                        token.refreshToken, json))))
+        Result.builder {
+            let! token =
+                dependencies.refreshToken clientId clientSecret refreshToken
+                |> Result.bind validateTokenResponse
+
+            let! athlete = dependencies.getAthlete token.accessToken
+            let! stats = dependencies.getStats token.accessToken athlete.id
+            let! activities = fetchAllActivities dependencies.getActivitiesPage token.accessToken
+            let normalized = Normalize.build athlete stats activities
+            return token.refreshToken, Json.serialize normalized
+        }
 
     let internal fetchNormalizedJson (dependencies: FetchDependencies) clientId clientSecret refreshToken =
         match fetchNormalizedJsonResult dependencies clientId clientSecret refreshToken with
@@ -438,13 +434,12 @@ module App =
         | Error error -> raise (StravaApiException(error))
 
     let fetchNormalizedJsonFromEnv () =
-        Env.getRequired "STRAVA_CLIENT_ID"
-        |> Result.bind (fun clientId ->
-            Env.getRequired "STRAVA_CLIENT_SECRET"
-            |> Result.bind (fun clientSecret ->
-                Env.getRequired "STRAVA_REFRESH_TOKEN"
-                |> Result.bind (fun refreshToken ->
-                    fetchNormalizedJsonResult liveDependencies clientId clientSecret refreshToken)))
+        Result.builder {
+            let! clientId = Env.getRequired "STRAVA_CLIENT_ID"
+            let! clientSecret = Env.getRequired "STRAVA_CLIENT_SECRET"
+            let! refreshToken = Env.getRequired "STRAVA_REFRESH_TOKEN"
+            return! fetchNormalizedJsonResult liveDependencies clientId clientSecret refreshToken
+        }
         |> function
             | Ok value -> value
             | Error error -> raise (StravaApiException(error))
