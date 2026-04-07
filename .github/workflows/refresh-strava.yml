@@ -9,15 +9,15 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-    env:
-      TARGET_REPO: ${{ vars.TARGET_REPO }}
+      contents: write
     steps:
-      - name: Checkout source repo
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v30
+        uses: DeterminateSystems/nix-installer-action@main
 
       - name: Run Strava fetcher
         env:
@@ -49,24 +49,25 @@ jobs:
             gh secret set STRAVA_REFRESH_TOKEN --repo "${GITHUB_REPOSITORY}" --body "${latest_token}"
           fi
 
-      - name: Publish snapshot to target repo
+      - name: Publish snapshot to snapshot branch
         env:
-          DATA_REPO_TOKEN: ${{ secrets.AUTOMATION_TOKEN }}
+          SNAPSHOT_BRANCH: ${{ vars.SNAPSHOT_BRANCH || 'strava-snapshots' }}
         run: |
           set -euo pipefail
-          if [ -z "${TARGET_REPO}" ]; then
-            echo "Missing required repository variable: TARGET_REPO" >&2
-            exit 1
+          cp strava-stats.json /tmp/strava-stats.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin "${SNAPSHOT_BRANCH}" >/dev/null 2>&1; then
+            git switch --track -C "${SNAPSHOT_BRANCH}" "origin/${SNAPSHOT_BRANCH}"
+          else
+            git switch --orphan "${SNAPSHOT_BRANCH}"
           fi
-          git clone "https://x-access-token:${DATA_REPO_TOKEN}@github.com/${TARGET_REPO}.git" target-repo
-          cp strava-stats.json target-repo/strava-stats.json
-          cd target-repo
-          if git diff --quiet -- strava-stats.json; then
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name strava-stats.json -exec rm -rf {} +
+          cp /tmp/strava-stats.json ./strava-stats.json
+          git add strava-stats.json
+          if git diff --cached --quiet -- strava-stats.json; then
             echo "No JSON changes detected; skipping commit"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add strava-stats.json
           git commit -m "Update Strava stats snapshot"
-          git push origin HEAD
+          git push origin "HEAD:${SNAPSHOT_BRANCH}"

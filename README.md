@@ -1,6 +1,6 @@
 # strava-fetcher
 
-Small F#/.NET CLI plus a GitHub Actions workflow for fetching Strava ride data, normalizing it to JSON, and publishing the snapshot into a separate repository.
+Small F#/.NET CLI plus a GitHub Actions workflow for fetching Strava ride data, normalizing it to JSON, and committing the snapshot back into this repository on a dedicated branch.
 
 ## What it does
 
@@ -10,7 +10,7 @@ Small F#/.NET CLI plus a GitHub Actions workflow for fetching Strava ride data, 
 - Fetches the current athlete, athlete stats, and all paginated athlete activities.
 - Keeps only cycling activities.
 - Writes normalized JSON to `stdout`.
-- Separates the data-fetching CLI from the workflow logic that updates secrets and pushes to the canonical data repo.
+- Separates the data-fetching CLI from the workflow logic that updates secrets and publishes the snapshot branch.
 
 ## Output shape
 
@@ -83,18 +83,18 @@ Required source-repo secrets:
 - `STRAVA_REFRESH_TOKEN`
 - `AUTOMATION_TOKEN`
 
-Required source-repo variable:
+Optional source-repo variable:
 
-- `TARGET_REPO`: `owner/repo` for the separate canonical data repository that will store only `strava-stats.json`
+- `SNAPSHOT_BRANCH`: branch name that will store `strava-stats.json` only. Defaults to `strava-snapshots`.
 
 `AUTOMATION_TOKEN` should be a PAT or GitHub App token that can:
 
-- write to the target repo
-- update Actions secrets in the source repo, specifically `STRAVA_REFRESH_TOKEN`
+- write to this repo
+- update Actions secrets in this repo, specifically `STRAVA_REFRESH_TOKEN`
 
 Important behavior:
 
-- The workflow preserves the latest rotated refresh token by updating the source repo secret immediately after a successful fetch, before publishing to the target repo. That prevents later scheduled runs from breaking even if the push step fails.
+- The workflow preserves the latest rotated refresh token by updating the repo secret immediately after a successful fetch, before publishing to the snapshot branch. That prevents later scheduled runs from breaking even if the push step fails.
 - The workflow commits only when `strava-stats.json` changed.
 - The workflow does not force-push.
 - The workflow fails if `git push` fails.
