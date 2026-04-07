@@ -187,9 +187,10 @@ module FailureTests =
 
         match Http.ensureJsonResponseResult response "<html><body>nope</body></html>" with
         | Ok() -> failwith "expected Error for html response"
-        | Error error ->
-            Assert.Contains("Expected JSON response", error)
-            Assert.Contains("text/html", error)
+        | Error(UnexpectedContentType(mediaType, bodyPreview)) ->
+            Assert.Equal("text/html", mediaType)
+            Assert.Contains("<html><body>nope</body></html>", bodyPreview)
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``ensureSuccess includes status and url`` () =
@@ -203,21 +204,26 @@ module FailureTests =
 
         match Http.ensureSuccessResult response """{"message":"bad"}""" with
         | Ok() -> failwith "expected Error for bad response"
-        | Error error ->
-            Assert.Contains("HTTP 400 (Bad Request)", error)
-            Assert.Contains("https://example.invalid/fail", error)
+        | Error(HttpError(statusCode, reasonPhrase, url, bodyPreview)) ->
+            Assert.Equal(400, statusCode)
+            Assert.Equal("Bad Request", reasonPhrase)
+            Assert.Equal("https://example.invalid/fail", url)
+            Assert.Contains("bad", bodyPreview)
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``deserializeRequired fails on malformed json`` () =
         match Json.deserializeResult<TokenResponse> "token response" "{not-json}" with
         | Ok _ -> failwith "expected Error for malformed json"
-        | Error error -> Assert.Contains("Failed to decode token response JSON", error)
+        | Error(JsonDecodeError("token response", message)) -> Assert.Contains("invalid", message.ToLowerInvariant())
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``deserializeRequired fails on null json`` () =
         match Json.deserializeResult<TokenResponse> "token response" "null" with
         | Ok _ -> failwith "expected Error for null json"
-        | Error error -> Assert.Equal("Decoded JSON for token response was null", error)
+        | Error(JsonDecodedNull "token response") -> ()
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``fetchNormalizedJson preserves rotated token and stops paginating on empty page`` () =
@@ -263,7 +269,7 @@ module FailureTests =
         let latestRefreshToken, json =
             match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
             | Ok value -> value
-            | Error error -> failwith error
+            | Error error -> failwith (FetchError.render error)
 
         Assert.Equal("refresh-456", latestRefreshToken)
         Assert.Equal<int[]>([| 1; 2; 3 |], seenPages |> Seq.toArray)
@@ -290,7 +296,8 @@ module FailureTests =
 
         match result with
         | Ok _ -> failwith "expected Error for missing rotated refresh token"
-        | Error error -> Assert.Equal("Token refresh response did not include a refresh_token", error)
+        | Error(MissingTokenField "refresh_token") -> ()
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``fetchNormalizedJsonResult fails on missing access token`` () =
@@ -307,7 +314,8 @@ module FailureTests =
 
         match result with
         | Ok _ -> failwith "expected Error for missing access token"
-        | Error error -> Assert.Equal("Token refresh response did not include an access_token", error)
+        | Error(MissingTokenField "access_token") -> ()
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"
 
     [<Fact>]
     let ``getRequired returns error instead of throwing`` () =
@@ -319,7 +327,8 @@ module FailureTests =
 
             match Env.getRequired name with
             | Ok _ -> failwith "expected Error for missing env var"
-            | Error error -> Assert.Equal($"Missing required environment variable: {name}", error)
+            | Error(MissingEnv value) -> Assert.Equal(name, value)
+            | Error error -> failwith $"unexpected error: {FetchError.render error}"
         finally
             Environment.SetEnvironmentVariable(name, original)
 
@@ -338,9 +347,10 @@ module FailureTests =
                     fun _ page ->
                         match page with
                         | 1 -> Ok [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None |]
-                        | 2 -> Error "boom page 2"
+                        | 2 -> Error(Message "boom page 2")
                         | _ -> Ok [||] }
 
         match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
         | Ok _ -> failwith "expected Error for page fetch failure"
-        | Error error -> Assert.Equal("boom page 2", error)
+        | Error(Message "boom page 2") -> ()
+        | Error error -> failwith $"unexpected error: {FetchError.render error}"

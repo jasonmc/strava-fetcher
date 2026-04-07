@@ -10,6 +10,28 @@ open System.Text.Json
 type StravaApiException(message: string) =
     inherit Exception(message)
 
+type FetchError =
+    | MissingEnv of string
+    | HttpError of statusCode: int * reasonPhrase: string * url: string * bodyPreview: string
+    | UnexpectedContentType of mediaType: string * bodyPreview: string
+    | JsonDecodeError of context: string * message: string
+    | JsonDecodedNull of context: string
+    | MissingTokenField of string
+    | Message of string
+
+module FetchError =
+    let render =
+        function
+        | MissingEnv name -> $"Missing required environment variable: {name}"
+        | HttpError(statusCode, reasonPhrase, url, bodyPreview) ->
+            $"HTTP {statusCode} ({reasonPhrase}) from {url}: {bodyPreview}"
+        | UnexpectedContentType(mediaType, bodyPreview) ->
+            $"Expected JSON response but received content-type '{mediaType}' with body: {bodyPreview}"
+        | JsonDecodeError(context, message) -> $"Failed to decode {context} JSON: {message}"
+        | JsonDecodedNull context -> $"Decoded JSON for {context} was null"
+        | MissingTokenField fieldName -> $"Token refresh response did not include a {fieldName}"
+        | Message message -> message
+
 module Result =
     let mapError mapper result =
         match result with
@@ -47,13 +69,13 @@ module Env =
     let getRequired name =
         match Environment.GetEnvironmentVariable(name) with
         | null
-        | "" -> Error($"Missing required environment variable: {name}")
+        | "" -> Error(MissingEnv name)
         | value -> Ok value
 
     let require name =
         match getRequired name with
         | Ok value -> value
-        | Error error -> raise (StravaApiException(error))
+        | Error error -> raise (StravaApiException(FetchError.render error))
 
 module Json =
     let options =
@@ -62,15 +84,15 @@ module Json =
     let deserializeResult<'T> context (content: string) =
         try
             match JsonSerializer.Deserialize<'T>(content, options) with
-            | null -> Error($"Decoded JSON for {context} was null")
+            | null -> Error(JsonDecodedNull context)
             | value -> Ok value
         with ex ->
-            Error($"Failed to decode {context} JSON: {ex.Message}")
+            Error(JsonDecodeError(context, ex.Message))
 
     let deserializeRequired<'T> context (content: string) =
         match deserializeResult<'T> context content with
         | Ok value -> value
-        | Error error -> raise (StravaApiException(error))
+        | Error error -> raise (StravaApiException(FetchError.render error))
 
     let serialize value =
         JsonSerializer.Serialize(value, options)
@@ -100,14 +122,14 @@ module Http =
             not (String.IsNullOrWhiteSpace(mediaType))
             && not (mediaType.Contains("json", StringComparison.OrdinalIgnoreCase))
         then
-            Error($"Expected JSON response but received content-type '{mediaType}' with body: {trimBody body}")
+            Error(UnexpectedContentType(mediaType, trimBody body))
         else
             Ok()
 
     let ensureJsonResponse (response: HttpResponseMessage) (body: string) =
         match ensureJsonResponseResult response body with
         | Ok() -> ()
-        | Error error -> raise (StravaApiException(error))
+        | Error error -> raise (StravaApiException(FetchError.render error))
 
     let ensureSuccessResult (response: HttpResponseMessage) (body: string) =
         if not response.IsSuccessStatusCode then
@@ -119,18 +141,21 @@ module Http =
                     | null -> "<unknown-url>"
                     | uri -> uri.ToString()
 
-            Error($"HTTP {(int response.StatusCode)} ({response.ReasonPhrase}) from {requestUri}: {trimBody body}")
+            let reasonPhrase =
+                response.ReasonPhrase |> Option.ofObj |> Option.defaultValue "<unknown-reason>"
+
+            Error(HttpError(int response.StatusCode, reasonPhrase, requestUri, trimBody body))
         else
             Ok()
 
     let ensureSuccess (response: HttpResponseMessage) (body: string) =
         match ensureSuccessResult response body with
         | Ok() -> ()
-        | Error error -> raise (StravaApiException(error))
+        | Error error -> raise (StravaApiException(FetchError.render error))
 
     let private unwrap result =
         result
-        |> Result.teeError (StravaApiException >> raise)
+        |> Result.teeError (FetchError.render >> StravaApiException >> raise)
         |> function
             | Ok value -> value
             | Error _ -> failwith "unreachable"
@@ -210,7 +235,7 @@ module Strava =
 
     let private unwrap result =
         result
-        |> Result.teeError (StravaApiException >> raise)
+        |> Result.teeError (FetchError.render >> StravaApiException >> raise)
         |> function
             | Ok value -> value
             | Error _ -> failwith "unreachable"
@@ -353,10 +378,10 @@ module Normalize =
 
 module App =
     type internal FetchDependencies =
-        { refreshToken: string -> string -> string -> Result<TokenResponse, string>
-          getAthlete: string -> Result<Athlete, string>
-          getStats: string -> int64 -> Result<AthleteStats, string>
-          getActivitiesPage: string -> int -> Result<Activity array, string> }
+        { refreshToken: string -> string -> string -> Result<TokenResponse, FetchError>
+          getAthlete: string -> Result<Athlete, FetchError>
+          getStats: string -> int64 -> Result<AthleteStats, FetchError>
+          getActivitiesPage: string -> int -> Result<Activity array, FetchError> }
 
     type internal ValidTokenResponse =
         { accessToken: string
@@ -378,11 +403,9 @@ module App =
 
     let private validateTokenResponse (tokenResponse: TokenResponse) =
         Result.builder {
-            let! accessToken =
-                requireNonBlank "Token refresh response did not include an access_token" tokenResponse.access_token
+            let! accessToken = requireNonBlank (MissingTokenField "access_token") tokenResponse.access_token
 
-            let! refreshToken =
-                requireNonBlank "Token refresh response did not include a refresh_token" tokenResponse.refresh_token
+            let! refreshToken = requireNonBlank (MissingTokenField "refresh_token") tokenResponse.refresh_token
 
             return
                 { accessToken = accessToken
@@ -390,7 +413,7 @@ module App =
         }
 
     let private fetchAllActivities
-        (getActivitiesPage: string -> int -> Result<Activity array, string>)
+        (getActivitiesPage: string -> int -> Result<Activity array, FetchError>)
         (accessToken: string)
         =
         Seq.initInfinite ((+) 1)
@@ -431,7 +454,7 @@ module App =
     let internal fetchNormalizedJson (dependencies: FetchDependencies) clientId clientSecret refreshToken =
         match fetchNormalizedJsonResult dependencies clientId clientSecret refreshToken with
         | Ok value -> value
-        | Error error -> raise (StravaApiException(error))
+        | Error error -> raise (StravaApiException(FetchError.render error))
 
     let fetchNormalizedJsonFromEnv () =
         Result.builder {
@@ -442,4 +465,4 @@ module App =
         }
         |> function
             | Ok value -> value
-            | Error error -> raise (StravaApiException(error))
+            | Error error -> raise (StravaApiException(FetchError.render error))
