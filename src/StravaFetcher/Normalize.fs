@@ -63,15 +63,6 @@ module Normalize =
                    hours = items |> List.sumBy (fun a -> secondsToHours a.moving_time) |> round2
                    elevation = items |> List.sumBy (fun a -> a.total_elevation_gain) |> round2 |})
 
-        let compactActivities =
-            cyclingActivities
-            |> List.map (fun a ->
-                {| start_date = a.start_date.ToString("O", CultureInfo.InvariantCulture)
-                   activity_distance = round2 (metersToMiles a.distance)
-                   activity_moving_time = a.moving_time
-                   activity_elevation_gain = round2 a.total_elevation_gain
-                   sport_type = a.sport_type |})
-
         {| athlete_id = athlete.id
            fetched_at = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture)
            biggest_ride_distance = round2 (metersToMiles stats.biggest_ride_distance)
@@ -81,5 +72,4 @@ module Normalize =
            all_ride_totals = stats.all_ride_totals
            weekly_ride_miles = weeklyMiles
            weekly_ride_hours = weeklyHours
-           annual_ride_totals = annualRideTotals
-           activities = compactActivities |}
+           annual_ride_totals = annualRideTotals |}

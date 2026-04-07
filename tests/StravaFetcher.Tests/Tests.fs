@@ -39,6 +39,10 @@ module TestData =
         | null -> failwith $"Expected property '%s{propertyName}' to be a string"
         | value -> value
 
+    let hasProperty (element: JsonElement) (propertyName: string) =
+        let mutable value = Unchecked.defaultof<JsonElement>
+        element.TryGetProperty(propertyName, &value)
+
 module NormalizeTests =
     open TestData
 
@@ -88,12 +92,7 @@ module NormalizeTests =
         Assert.Equal(2.5, annualTotals[1].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(450.0, annualTotals[1].GetProperty("elevation").GetDouble(), 2)
 
-        let compactActivities =
-            root.GetProperty("activities").EnumerateArray() |> Seq.toArray
-
-        Assert.Equal(3, compactActivities.Length)
-        Assert.Equal("Ride", requiredString compactActivities[0] "sport_type")
-        Assert.DoesNotContain(compactActivities, fun activity -> requiredString activity "sport_type" = "Run")
+        Assert.False(hasProperty root "activities")
 
     [<Fact>]
     let ``normalize returns empty aggregates for no cycling activities`` () =
@@ -105,7 +104,7 @@ module NormalizeTests =
         Assert.Empty(root.GetProperty("weekly_ride_miles").EnumerateArray())
         Assert.Empty(root.GetProperty("weekly_ride_hours").EnumerateArray())
         Assert.Empty(root.GetProperty("annual_ride_totals").EnumerateArray())
-        Assert.Empty(root.GetProperty("activities").EnumerateArray())
+        Assert.False(hasProperty root "activities")
 
     [<Fact>]
     let ``normalize uses legacy type ride fallback`` () =
@@ -115,11 +114,7 @@ module NormalizeTests =
         use document = parseNormalized athlete stats activities
         let root = document.RootElement
 
-        let compactActivities =
-            root.GetProperty("activities").EnumerateArray() |> Seq.toArray
-
-        Assert.Single(compactActivities) |> ignore
-        Assert.Equal("Workout", requiredString compactActivities[0] "sport_type")
+        Assert.False(hasProperty root "activities")
 
     [<Fact>]
     let ``normalize splits weeks on monday boundary`` () =
@@ -276,10 +271,7 @@ module FailureTests =
 
         use document = JsonDocument.Parse(json)
 
-        let activities =
-            document.RootElement.GetProperty("activities").EnumerateArray() |> Seq.toArray
-
-        Assert.Equal(2, activities.Length)
+        Assert.False(hasProperty document.RootElement "activities")
 
     [<Fact>]
     let ``fetchNormalizedJson fails on missing rotated refresh token`` () =
