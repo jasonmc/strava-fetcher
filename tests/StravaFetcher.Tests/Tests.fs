@@ -12,10 +12,10 @@ module TestData =
     let rideTotals =
         { count = 1
           distance = 1609.34
-          moving_time = 3600
-          elapsed_time = 3600
+          moving_time = 3600.0
+          elapsed_time = 3600.0
           elevation_gain = 100.0
-          achievement_count = 0 }
+          achievement_count = Some 0 }
 
     let athlete = { id = 42L }
 

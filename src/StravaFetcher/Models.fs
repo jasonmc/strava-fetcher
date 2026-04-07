@@ -11,10 +11,10 @@ type Athlete = { id: int64 }
 type RideTotals =
     { count: int
       distance: float
-      moving_time: int
-      elapsed_time: int
+      moving_time: float
+      elapsed_time: float
       elevation_gain: float
-      achievement_count: int }
+      achievement_count: int option }
 
 type AthleteStats =
     { biggest_ride_distance: float
