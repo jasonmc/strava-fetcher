@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "FSharp.Core": {
+        "type": "Direct",
+        "requested": "[10.0.103, )",
+        "resolved": "10.0.103",
+        "contentHash": "4bfehfVRrfSPpt/hdx8nTsPcqr/w5leYJMwVeIKTrpB8Pugq/VIwdOn+hwhnFVvKOMh2hA6moSA/XEEokEu2TA=="
+      },
+      "stravafetcher": {
+        "type": "Project",
+        "dependencies": {
+          "FSharp.Core": "[10.0.103, )"
+        }
+      }
+    }
+  }
+}

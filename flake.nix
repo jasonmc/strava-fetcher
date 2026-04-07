@@ -22,12 +22,14 @@
           pname = "strava-fetcher";
           version = "0.1.0";
           src = ./.;
-          projectFile = "StravaFetcher.fsproj";
+          projectFile = "src/StravaFetcher.Cli/StravaFetcher.Cli.fsproj";
           nugetDeps = nuget-packageslock2nix.lib {
             inherit system;
             name = "strava-fetcher";
             lockfiles = [
-              ./packages.lock.json
+              ./src/StravaFetcher/packages.lock.json
+              ./src/StravaFetcher.Cli/packages.lock.json
+              ./tests/StravaFetcher.Tests/packages.lock.json
             ];
             excludePackages = [
               "FSharp.Core-10.0.103"
@@ -35,15 +37,16 @@
           };
           dotnet-sdk = dotnetSdk;
           dotnet-runtime = dotnetRuntime;
-          executables = [ "StravaFetcher" ];
+          executables = [ "StravaFetcher.Cli" ];
           selfContainedBuild = false;
+          testProjectFile = "tests/StravaFetcher.Tests/StravaFetcher.Tests.fsproj";
         };
 
         checks.default = self.packages.${system}.default;
 
         apps.default = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/StravaFetcher";
+          program = "${self.packages.${system}.default}/bin/StravaFetcher.Cli";
         };
 
         devShells.default = pkgs.mkShell {

@@ -111,9 +111,23 @@ The flake builds the CLI with `buildDotnetModule` and exposes:
 - `nix build .`
 - `nix develop`
 
-The flake uses `nuget-packageslock2nix.lib` with checked-in `packages.lock.json`.
-If package dependencies change, regenerate the lock file with:
+Project layout:
+
+- `src/StravaFetcher`: library with the fetch/normalize logic
+- `src/StravaFetcher.Cli`: thin CLI entrypoint
+- `tests/StravaFetcher.Tests`: xUnit F# test project
+
+The flake uses `nuget-packageslock2nix.lib` with checked-in lockfiles.
+If package dependencies change, regenerate the lock files with:
 
 ```bash
-dotnet restore
+dotnet restore src/StravaFetcher/StravaFetcher.fsproj --use-lock-file
+dotnet restore src/StravaFetcher.Cli/StravaFetcher.Cli.fsproj --use-lock-file
+dotnet restore tests/StravaFetcher.Tests/StravaFetcher.Tests.fsproj --use-lock-file
+```
+
+Run tests locally with:
+
+```bash
+dotnet test tests/StravaFetcher.Tests/StravaFetcher.Tests.fsproj
 ```

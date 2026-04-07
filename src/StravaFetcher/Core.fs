@@ -1,12 +1,11 @@
+namespace StravaFetcher
+
 open System
 open System.Collections.Generic
 open System.Globalization
-open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
-open System.Text
 open System.Text.Json
-open System.Text.Json.Nodes
 
 type StravaApiException(message: string) =
     inherit Exception(message)
@@ -30,7 +29,10 @@ module Json =
             match JsonSerializer.Deserialize<'T>(content, options) with
             | null -> raise (StravaApiException($"Decoded JSON for {context} was null"))
             | value -> value
-        with ex ->
+        with
+        | :? StravaApiException ->
+            reraise ()
+        | ex ->
             raise (StravaApiException($"Failed to decode {context} JSON: {ex.Message}"))
 
 module Http =
@@ -153,7 +155,6 @@ module Strava =
     let getAthleteAsync accessToken =
         task {
             let! body = Http.getJsonAsync $"{baseUrl}/api/v3/athlete" accessToken
-
             let parsed = Json.deserializeRequired<Athlete> "athlete" body
             return parsed
         }
@@ -161,7 +162,6 @@ module Strava =
     let getStatsAsync accessToken athleteId =
         task {
             let! body = Http.getJsonAsync $"{baseUrl}/api/v3/athletes/{athleteId}/stats" accessToken
-
             let parsed = Json.deserializeRequired<AthleteStats> "athlete stats" body
             return parsed
         }
@@ -259,17 +259,37 @@ module Normalize =
            annual_ride_totals = annualRideTotals
            activities = compactActivities |}
 
-[<EntryPoint>]
-let main _ =
-    try
-        let clientId = Env.require "STRAVA_CLIENT_ID"
-        let clientSecret = Env.require "STRAVA_CLIENT_SECRET"
-        let refreshToken = Env.require "STRAVA_REFRESH_TOKEN"
+module App =
+    type internal FetchDependencies =
+        { refreshToken: string -> string -> string -> TokenResponse
+          getAthlete: string -> Athlete
+          getStats: string -> int64 -> AthleteStats
+          getActivitiesPage: string -> int -> Activity array }
 
-        let tokenResponse =
-            Strava.refreshTokenAsync clientId clientSecret refreshToken
-            |> Async.AwaitTask
-            |> Async.RunSynchronously
+    let internal liveDependencies =
+        { refreshToken =
+            fun clientId clientSecret refreshToken ->
+                Strava.refreshTokenAsync clientId clientSecret refreshToken
+                |> Async.AwaitTask
+                |> Async.RunSynchronously
+          getAthlete =
+            fun accessToken ->
+                Strava.getAthleteAsync accessToken
+                |> Async.AwaitTask
+                |> Async.RunSynchronously
+          getStats =
+            fun accessToken athleteId ->
+                Strava.getStatsAsync accessToken athleteId
+                |> Async.AwaitTask
+                |> Async.RunSynchronously
+          getActivitiesPage =
+            fun accessToken page ->
+                Strava.getActivitiesPageAsync accessToken page
+                |> Async.AwaitTask
+                |> Async.RunSynchronously }
+
+    let internal fetchNormalizedJson dependencies clientId clientSecret refreshToken =
+        let tokenResponse = dependencies.refreshToken clientId clientSecret refreshToken
 
         if String.IsNullOrWhiteSpace(tokenResponse.access_token) then
             raise (StravaApiException("Token refresh response did not include an access_token"))
@@ -277,37 +297,22 @@ let main _ =
         if String.IsNullOrWhiteSpace(tokenResponse.refresh_token) then
             raise (StravaApiException("Token refresh response did not include a refresh_token"))
 
-        eprintfn $"Latest STRAVA_REFRESH_TOKEN=%s{tokenResponse.refresh_token}"
-
-        let athlete =
-            Strava.getAthleteAsync tokenResponse.access_token
-            |> Async.AwaitTask
-            |> Async.RunSynchronously
-
-        let stats =
-            Strava.getStatsAsync tokenResponse.access_token athlete.id
-            |> Async.AwaitTask
-            |> Async.RunSynchronously
+        let athlete = dependencies.getAthlete tokenResponse.access_token
+        let stats = dependencies.getStats tokenResponse.access_token athlete.id
 
         let activities =
-            [ 1 .. Int32.MaxValue ]
-            |> Seq.map (fun page ->
-                Strava.getActivitiesPageAsync tokenResponse.access_token page
-                |> Async.AwaitTask
-                |> Async.RunSynchronously)
+            Seq.initInfinite (fun index -> index + 1)
+            |> Seq.map (fun page -> dependencies.getActivitiesPage tokenResponse.access_token page)
             |> Seq.takeWhile (fun pageActivities -> pageActivities.Length > 0)
             |> Seq.collect id
             |> Seq.toList
 
         let normalized = Normalize.build athlete stats activities
         let json = JsonSerializer.Serialize(normalized, Json.options)
-        Console.OutputEncoding <- Encoding.UTF8
-        printfn "%s" json
-        0
-    with
-    | :? StravaApiException as ex ->
-        eprintfn "%s" ex.Message
-        1
-    | ex ->
-        eprintfn "Unhandled error: %s" ex.Message
-        1
+        tokenResponse.refresh_token, json
+
+    let fetchNormalizedJsonFromEnv () =
+        let clientId = Env.require "STRAVA_CLIENT_ID"
+        let clientSecret = Env.require "STRAVA_CLIENT_SECRET"
+        let refreshToken = Env.require "STRAVA_REFRESH_TOKEN"
+        fetchNormalizedJson liveDependencies clientId clientSecret refreshToken
