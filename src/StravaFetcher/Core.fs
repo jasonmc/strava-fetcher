@@ -1,12 +1,11 @@
 namespace StravaFetcher
 
 open System
-open System.Collections.Generic
 open System.Globalization
 open System.Net.Http
-open System.Net.Http.Headers
 open System.Threading.Tasks
 open System.Text.Json
+open FsHttp
 open FsToolkit.ErrorHandling
 
 type StravaApiException(message: string) =
@@ -78,12 +77,6 @@ module Json =
         JsonSerializer.Serialize(value, options)
 
 module Http =
-    let client =
-        let c = new HttpClient()
-        c.Timeout <- TimeSpan.FromSeconds(60.0)
-        c.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue("application/json"))
-        c
-
     let private trimBody (body: string) =
         if String.IsNullOrWhiteSpace(body) then "<empty>"
         elif body.Length <= 400 then body
@@ -140,28 +133,28 @@ module Http =
             | Ok value -> value
             | Error _ -> failwith "unreachable"
 
-    let private sendResultAsync (requestFactory: unit -> HttpRequestMessage) =
+    let private sendResultAsync request =
         task {
-            use request = requestFactory ()
-            use! response = client.SendAsync(request)
-            let! body = response.Content.ReadAsStringAsync()
+            let! response = Request.sendAsync request
+            let! body = Response.toTextAsync response
+            use responseMessage = Response.asOriginalHttpResponseMessage response
 
             return
                 result {
-                    do! ensureSuccessResult response body
-                    do! ensureJsonResponseResult response body
+                    do! ensureSuccessResult responseMessage body
+                    do! ensureJsonResponseResult responseMessage body
                     return body
                 }
         }
 
     let postFormResultAsync (url: string) (pairs: (string * string) list) =
-        sendResultAsync (fun () ->
-            let request = new HttpRequestMessage(HttpMethod.Post, url)
-
-            request.Content <-
-                new FormUrlEncodedContent(pairs |> Seq.map (fun (k, v) -> KeyValuePair<string, string>(k, v)))
-
-            request)
+        http {
+            POST url
+            Accept "application/json"
+            body
+            formUrlEncoded pairs
+        }
+        |> sendResultAsync
 
     let postFormAsync (url: string) (pairs: (string * string) list) =
         task {
@@ -170,10 +163,12 @@ module Http =
         }
 
     let getJsonResultAsync (url: string) (accessToken: string) =
-        sendResultAsync (fun () ->
-            let request = new HttpRequestMessage(HttpMethod.Get, url)
-            request.Headers.Authorization <- AuthenticationHeaderValue("Bearer", accessToken)
-            request)
+        http {
+            GET url
+            Accept "application/json"
+            AuthorizationBearer accessToken
+        }
+        |> sendResultAsync
 
     let getJsonAsync (url: string) (accessToken: string) =
         task {
