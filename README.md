@@ -23,7 +23,7 @@ The CLI emits JSON with these top-level keys:
 - `recent_ride_totals`
 - `ytd_ride_totals`
 - `all_ride_totals`
-- `weekly_ride_miles`
+- `weekly_ride_kilometers`
 - `weekly_ride_hours`
 - `annual_ride_totals`
 
@@ -33,11 +33,11 @@ Schema summary:
 {
   "athlete_id": 123456,
   "fetched_at": "2026-04-07T15:30:00Z",
-  "biggest_ride_distance": 128.4,
+  "biggest_ride_distance": 206.64,
   "biggest_climb_elevation_gain": 10492.0,
   "recent_ride_totals": {
     "count": 12,
-    "distance": 615432.5,
+    "distance": 615.43,
     "moving_time": 64231.0,
     "elapsed_time": 70102.0,
     "elevation_gain": 8234.2,
@@ -45,7 +45,7 @@ Schema summary:
   },
   "ytd_ride_totals": {
     "count": 84,
-    "distance": 3251801.0,
+    "distance": 3251.8,
     "moving_time": 260746.0,
     "elapsed_time": 281334.0,
     "elevation_gain": 44127.6,
@@ -53,16 +53,16 @@ Schema summary:
   },
   "all_ride_totals": {
     "count": 1432,
-    "distance": 48219012.4,
+    "distance": 48219.01,
     "moving_time": 3897421.0,
     "elapsed_time": 4211805.0,
     "elevation_gain": 712554.9,
     "achievement_count": null
   },
-  "weekly_ride_miles": [
+  "weekly_ride_kilometers": [
     {
       "week_start": "2026-03-30",
-      "miles": 87.6
+      "kilometers": 141.0
     }
   ],
   "weekly_ride_hours": [
@@ -75,7 +75,7 @@ Schema summary:
     {
       "year": 2026,
       "rides": 84,
-      "miles": 2020.4,
+      "kilometers": 3251.8,
       "hours": 72.4,
       "elevation": 44127.6
     }
@@ -85,10 +85,10 @@ Schema summary:
 
 Aggregation notes:
 
-- `weekly_ride_miles` is grouped by ISO-style week start date (Monday) and stored as `[{ "week_start": "YYYY-MM-DD", "miles": ... }]`.
+- `weekly_ride_kilometers` is grouped by ISO-style week start date (Monday) and stored as `[{ "week_start": "YYYY-MM-DD", "kilometers": ... }]`.
 - `weekly_ride_hours` is grouped the same way and stores hours.
-- `annual_ride_totals` is stored as `[{ "year": YYYY, "rides": ..., "miles": ..., "hours": ..., "elevation": ... }]`.
-- Distances in normalized activity/weekly/annual output are converted to miles. Strava totals from the stats endpoint are preserved as returned by Strava.
+- `annual_ride_totals` is stored as `[{ "year": YYYY, "rides": ..., "kilometers": ..., "hours": ..., "elevation": ... }]`.
+- Distances in the published JSON are normalized to kilometers. Elevation values are meters. `moving_time` and `elapsed_time` remain in seconds, while weekly and annual duration aggregates are expressed in hours.
 - Raw activities are fetched privately so weekly and annual aggregates can be computed, but they are not published in the JSON output.
 
 ## Local run

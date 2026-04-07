@@ -62,16 +62,17 @@ module NormalizeTests =
         let root = document.RootElement
 
         Assert.Equal(42L, root.GetProperty("athlete_id").GetInt64())
-        Assert.Equal(6.21, root.GetProperty("biggest_ride_distance").GetDouble(), 2)
+        Assert.Equal(10.0, root.GetProperty("biggest_ride_distance").GetDouble(), 2)
+        Assert.Equal(1.61, root.GetProperty("recent_ride_totals").GetProperty("distance").GetDouble(), 2)
 
-        let weeklyMiles =
-            root.GetProperty("weekly_ride_miles").EnumerateArray() |> Seq.toArray
+        let weeklyKilometers =
+            root.GetProperty("weekly_ride_kilometers").EnumerateArray() |> Seq.toArray
 
-        Assert.Equal(2, weeklyMiles.Length)
-        Assert.Equal("2025-12-29", requiredString weeklyMiles[0] "week_start")
-        Assert.Equal(3.0, weeklyMiles[0].GetProperty("miles").GetDouble(), 2)
-        Assert.Equal("2026-01-05", requiredString weeklyMiles[1] "week_start")
-        Assert.Equal(5.0, weeklyMiles[1].GetProperty("miles").GetDouble(), 2)
+        Assert.Equal(2, weeklyKilometers.Length)
+        Assert.Equal("2025-12-29", requiredString weeklyKilometers[0] "week_start")
+        Assert.Equal(4.83, weeklyKilometers[0].GetProperty("kilometers").GetDouble(), 2)
+        Assert.Equal("2026-01-05", requiredString weeklyKilometers[1] "week_start")
+        Assert.Equal(8.05, weeklyKilometers[1].GetProperty("kilometers").GetDouble(), 2)
 
         let weeklyHours =
             root.GetProperty("weekly_ride_hours").EnumerateArray() |> Seq.toArray
@@ -85,10 +86,10 @@ module NormalizeTests =
         Assert.Equal(2, annualTotals.Length)
         Assert.Equal(2025, annualTotals[0].GetProperty("year").GetInt32())
         Assert.Equal(1, annualTotals[0].GetProperty("rides").GetInt32())
-        Assert.Equal(1.0, annualTotals[0].GetProperty("miles").GetDouble(), 2)
+        Assert.Equal(1.61, annualTotals[0].GetProperty("kilometers").GetDouble(), 2)
         Assert.Equal(2026, annualTotals[1].GetProperty("year").GetInt32())
         Assert.Equal(2, annualTotals[1].GetProperty("rides").GetInt32())
-        Assert.Equal(7.0, annualTotals[1].GetProperty("miles").GetDouble(), 2)
+        Assert.Equal(11.27, annualTotals[1].GetProperty("kilometers").GetDouble(), 2)
         Assert.Equal(2.5, annualTotals[1].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(450.0, annualTotals[1].GetProperty("elevation").GetDouble(), 2)
 
@@ -101,7 +102,7 @@ module NormalizeTests =
         use document = parseNormalized athlete stats activities
         let root = document.RootElement
 
-        Assert.Empty(root.GetProperty("weekly_ride_miles").EnumerateArray())
+        Assert.Empty(root.GetProperty("weekly_ride_kilometers").EnumerateArray())
         Assert.Empty(root.GetProperty("weekly_ride_hours").EnumerateArray())
         Assert.Empty(root.GetProperty("annual_ride_totals").EnumerateArray())
         Assert.False(hasProperty root "activities")
@@ -124,13 +125,13 @@ module NormalizeTests =
 
         use document = parseNormalized athlete stats activities
 
-        let weeklyMiles =
-            document.RootElement.GetProperty("weekly_ride_miles").EnumerateArray()
+        let weeklyKilometers =
+            document.RootElement.GetProperty("weekly_ride_kilometers").EnumerateArray()
             |> Seq.toArray
 
-        Assert.Equal(2, weeklyMiles.Length)
-        Assert.Equal("2026-01-05", requiredString weeklyMiles[0] "week_start")
-        Assert.Equal("2026-01-12", requiredString weeklyMiles[1] "week_start")
+        Assert.Equal(2, weeklyKilometers.Length)
+        Assert.Equal("2026-01-05", requiredString weeklyKilometers[0] "week_start")
+        Assert.Equal("2026-01-12", requiredString weeklyKilometers[1] "week_start")
 
     [<Fact>]
     let ``normalize rounds annual totals across year boundary`` () =
@@ -145,10 +146,10 @@ module NormalizeTests =
             |> Seq.toArray
 
         Assert.Equal(2, annualTotals.Length)
-        Assert.Equal(0.62, annualTotals[0].GetProperty("miles").GetDouble(), 2)
+        Assert.Equal(1.0, annualTotals[0].GetProperty("kilometers").GetDouble(), 2)
         Assert.Equal(1.0, annualTotals[0].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(12.35, annualTotals[0].GetProperty("elevation").GetDouble(), 2)
-        Assert.Equal(1.24, annualTotals[1].GetProperty("miles").GetDouble(), 2)
+        Assert.Equal(2.0, annualTotals[1].GetProperty("kilometers").GetDouble(), 2)
         Assert.Equal(1.02, annualTotals[1].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(67.89, annualTotals[1].GetProperty("elevation").GetDouble(), 2)
 
