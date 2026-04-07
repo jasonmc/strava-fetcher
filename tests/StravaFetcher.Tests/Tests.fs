@@ -60,18 +60,24 @@ module NormalizeTests =
         Assert.Equal(42L, root.GetProperty("athlete_id").GetInt64())
         Assert.Equal(6.21, root.GetProperty("biggest_ride_distance").GetDouble(), 2)
 
-        let weeklyMiles = root.GetProperty("weekly_ride_miles").EnumerateArray() |> Seq.toArray
+        let weeklyMiles =
+            root.GetProperty("weekly_ride_miles").EnumerateArray() |> Seq.toArray
+
         Assert.Equal(2, weeklyMiles.Length)
         Assert.Equal("2025-12-29", requiredString weeklyMiles[0] "week_start")
         Assert.Equal(3.0, weeklyMiles[0].GetProperty("miles").GetDouble(), 2)
         Assert.Equal("2026-01-05", requiredString weeklyMiles[1] "week_start")
         Assert.Equal(5.0, weeklyMiles[1].GetProperty("miles").GetDouble(), 2)
 
-        let weeklyHours = root.GetProperty("weekly_ride_hours").EnumerateArray() |> Seq.toArray
+        let weeklyHours =
+            root.GetProperty("weekly_ride_hours").EnumerateArray() |> Seq.toArray
+
         Assert.Equal(1.5, weeklyHours[0].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(2.0, weeklyHours[1].GetProperty("hours").GetDouble(), 2)
 
-        let annualTotals = root.GetProperty("annual_ride_totals").EnumerateArray() |> Seq.toArray
+        let annualTotals =
+            root.GetProperty("annual_ride_totals").EnumerateArray() |> Seq.toArray
+
         Assert.Equal(2, annualTotals.Length)
         Assert.Equal(2025, annualTotals[0].GetProperty("year").GetInt32())
         Assert.Equal(1, annualTotals[0].GetProperty("rides").GetInt32())
@@ -82,7 +88,9 @@ module NormalizeTests =
         Assert.Equal(2.5, annualTotals[1].GetProperty("hours").GetDouble(), 2)
         Assert.Equal(450.0, annualTotals[1].GetProperty("elevation").GetDouble(), 2)
 
-        let compactActivities = root.GetProperty("activities").EnumerateArray() |> Seq.toArray
+        let compactActivities =
+            root.GetProperty("activities").EnumerateArray() |> Seq.toArray
+
         Assert.Equal(3, compactActivities.Length)
         Assert.Equal("Ride", requiredString compactActivities[0] "sport_type")
         Assert.DoesNotContain(compactActivities, fun activity -> requiredString activity "sport_type" = "Run")
@@ -106,7 +114,9 @@ module NormalizeTests =
 
         use document = parseNormalized athlete stats activities
         let root = document.RootElement
-        let compactActivities = root.GetProperty("activities").EnumerateArray() |> Seq.toArray
+
+        let compactActivities =
+            root.GetProperty("activities").EnumerateArray() |> Seq.toArray
 
         Assert.Single(compactActivities) |> ignore
         Assert.Equal("Workout", requiredString compactActivities[0] "sport_type")
@@ -118,7 +128,10 @@ module NormalizeTests =
               activity "2026-01-12T10:00:00Z" 3218.68 3600 20.0 "Ride" None ]
 
         use document = parseNormalized athlete stats activities
-        let weeklyMiles = document.RootElement.GetProperty("weekly_ride_miles").EnumerateArray() |> Seq.toArray
+
+        let weeklyMiles =
+            document.RootElement.GetProperty("weekly_ride_miles").EnumerateArray()
+            |> Seq.toArray
 
         Assert.Equal(2, weeklyMiles.Length)
         Assert.Equal("2026-01-05", requiredString weeklyMiles[0] "week_start")
@@ -131,7 +144,10 @@ module NormalizeTests =
               activity "2026-01-01T10:00:00Z" 2000.0 3661 67.891 "Ride" None ]
 
         use document = parseNormalized athlete stats activities
-        let annualTotals = document.RootElement.GetProperty("annual_ride_totals").EnumerateArray() |> Seq.toArray
+
+        let annualTotals =
+            document.RootElement.GetProperty("annual_ride_totals").EnumerateArray()
+            |> Seq.toArray
 
         Assert.Equal(2, annualTotals.Length)
         Assert.Equal(0.62, annualTotals[0].GetProperty("miles").GetDouble(), 2)
@@ -170,7 +186,7 @@ module FailureTests =
             jsonResponse HttpStatusCode.OK "OK" "text/html" "<html><body>nope</body></html>" "https://example.invalid"
 
         match Http.ensureJsonResponseResult response "<html><body>nope</body></html>" with
-        | Ok () -> failwith "expected Error for html response"
+        | Ok() -> failwith "expected Error for html response"
         | Error error ->
             Assert.Contains("Expected JSON response", error)
             Assert.Contains("text/html", error)
@@ -178,10 +194,15 @@ module FailureTests =
     [<Fact>]
     let ``ensureSuccess includes status and url`` () =
         use response =
-            jsonResponse HttpStatusCode.BadRequest "Bad Request" "application/json" """{"message":"bad"}""" "https://example.invalid/fail"
+            jsonResponse
+                HttpStatusCode.BadRequest
+                "Bad Request"
+                "application/json"
+                """{"message":"bad"}"""
+                "https://example.invalid/fail"
 
         match Http.ensureSuccessResult response """{"message":"bad"}""" with
-        | Ok () -> failwith "expected Error for bad response"
+        | Ok() -> failwith "expected Error for bad response"
         | Error error ->
             Assert.Contains("HTTP 400 (Bad Request)", error)
             Assert.Contains("https://example.invalid/fail", error)
@@ -201,34 +222,43 @@ module FailureTests =
     [<Fact>]
     let ``fetchNormalizedJson preserves rotated token and stops paginating on empty page`` () =
         let seenPages = ResizeArray<int>()
+
         let expectAccessToken accessToken =
             if accessToken <> "access-123" then
                 failwith $"unexpected access token %s{accessToken}"
 
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "refresh-456" }
-                getAthlete = fun accessToken ->
-                    expectAccessToken accessToken
-                    Ok athlete
-                getStats = fun accessToken athleteId ->
-                    expectAccessToken accessToken
-                    if athleteId <> 42L then
-                        failwith $"unexpected athlete id %d{athleteId}"
-                    Ok stats
-                getActivitiesPage = fun accessToken page ->
-                    expectAccessToken accessToken
-                    seenPages.Add(page)
-
-                    match page with
-                    | 1 ->
+                refreshToken =
+                    fun _ _ _ ->
                         Ok
-                            [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None
-                               activity "2026-01-02T10:00:00Z" 5000.0 1200 10.0 "Run" None |]
-                    | 2 ->
-                        Ok [| activity "2026-01-03T10:00:00Z" 3218.68 1800 20.0 "Ride" None |]
-                    | 3 -> Ok [||]
-                    | _ -> failwith $"unexpected page %d{page}" }
+                            { access_token = "access-123"
+                              refresh_token = "refresh-456" }
+                getAthlete =
+                    fun accessToken ->
+                        expectAccessToken accessToken
+                        Ok athlete
+                getStats =
+                    fun accessToken athleteId ->
+                        expectAccessToken accessToken
+
+                        if athleteId <> 42L then
+                            failwith $"unexpected athlete id %d{athleteId}"
+
+                        Ok stats
+                getActivitiesPage =
+                    fun accessToken page ->
+                        expectAccessToken accessToken
+                        seenPages.Add(page)
+
+                        match page with
+                        | 1 ->
+                            Ok
+                                [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None
+                                   activity "2026-01-02T10:00:00Z" 5000.0 1200 10.0 "Run" None |]
+                        | 2 -> Ok [| activity "2026-01-03T10:00:00Z" 3218.68 1800 20.0 "Ride" None |]
+                        | 3 -> Ok [||]
+                        | _ -> failwith $"unexpected page %d{page}" }
 
         let latestRefreshToken, json =
             match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
@@ -239,16 +269,24 @@ module FailureTests =
         Assert.Equal<int[]>([| 1; 2; 3 |], seenPages |> Seq.toArray)
 
         use document = JsonDocument.Parse(json)
-        let activities = document.RootElement.GetProperty("activities").EnumerateArray() |> Seq.toArray
+
+        let activities =
+            document.RootElement.GetProperty("activities").EnumerateArray() |> Seq.toArray
+
         Assert.Equal(2, activities.Length)
 
     [<Fact>]
     let ``fetchNormalizedJson fails on missing rotated refresh token`` () =
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "" } }
+                refreshToken =
+                    fun _ _ _ ->
+                        Ok
+                            { access_token = "access-123"
+                              refresh_token = "" } }
 
-        let result = App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
+        let result =
+            App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
 
         match result with
         | Ok _ -> failwith "expected Error for missing rotated refresh token"
@@ -258,9 +296,14 @@ module FailureTests =
     let ``fetchNormalizedJsonResult fails on missing access token`` () =
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> Ok { access_token = ""; refresh_token = "refresh-456" } }
+                refreshToken =
+                    fun _ _ _ ->
+                        Ok
+                            { access_token = ""
+                              refresh_token = "refresh-456" } }
 
-        let result = App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
+        let result =
+            App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token"
 
         match result with
         | Ok _ -> failwith "expected Error for missing access token"
@@ -273,6 +316,7 @@ module FailureTests =
 
         try
             Environment.SetEnvironmentVariable(name, null)
+
             match Env.getRequired name with
             | Ok _ -> failwith "expected Error for missing env var"
             | Error error -> Assert.Equal($"Missing required environment variable: {name}", error)
@@ -283,14 +327,19 @@ module FailureTests =
     let ``fetchNormalizedJsonResult returns page fetch error`` () =
         let dependencies =
             { App.liveDependencies with
-                refreshToken = fun _ _ _ -> Ok { access_token = "access-123"; refresh_token = "refresh-456" }
+                refreshToken =
+                    fun _ _ _ ->
+                        Ok
+                            { access_token = "access-123"
+                              refresh_token = "refresh-456" }
                 getAthlete = fun _ -> Ok athlete
                 getStats = fun _ _ -> Ok stats
-                getActivitiesPage = fun _ page ->
-                    match page with
-                    | 1 -> Ok [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None |]
-                    | 2 -> Error "boom page 2"
-                    | _ -> Ok [||] }
+                getActivitiesPage =
+                    fun _ page ->
+                        match page with
+                        | 1 -> Ok [| activity "2026-01-01T10:00:00Z" 1609.34 3600 10.0 "Ride" None |]
+                        | 2 -> Error "boom page 2"
+                        | _ -> Ok [||] }
 
         match App.fetchNormalizedJsonResult dependencies "client-id" "client-secret" "old-refresh-token" with
         | Ok _ -> failwith "expected Error for page fetch failure"

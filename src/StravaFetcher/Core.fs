@@ -43,18 +43,14 @@ module Env =
 
 module Json =
     let options =
-        JsonSerializerOptions(
-            PropertyNameCaseInsensitive = true,
-            WriteIndented = true
-        )
+        JsonSerializerOptions(PropertyNameCaseInsensitive = true, WriteIndented = true)
 
     let deserializeResult<'T> context (content: string) =
         try
             match JsonSerializer.Deserialize<'T>(content, options) with
             | null -> Error($"Decoded JSON for {context} was null")
             | value -> Ok value
-        with
-        | ex ->
+        with ex ->
             Error($"Failed to decode {context} JSON: {ex.Message}")
 
     let deserializeRequired<'T> context (content: string) =
@@ -83,14 +79,17 @@ module Http =
                 | null -> ""
                 | value -> value
 
-        if not (String.IsNullOrWhiteSpace(mediaType)) && not (mediaType.Contains("json", StringComparison.OrdinalIgnoreCase)) then
+        if
+            not (String.IsNullOrWhiteSpace(mediaType))
+            && not (mediaType.Contains("json", StringComparison.OrdinalIgnoreCase))
+        then
             Error($"Expected JSON response but received content-type '{mediaType}' with body: {trimBody body}")
         else
-            Ok ()
+            Ok()
 
     let ensureJsonResponse (response: HttpResponseMessage) (body: string) =
         match ensureJsonResponseResult response body with
-        | Ok () -> ()
+        | Ok() -> ()
         | Error error -> raise (StravaApiException(error))
 
     let ensureSuccessResult (response: HttpResponseMessage) (body: string) =
@@ -105,20 +104,17 @@ module Http =
 
             Error($"HTTP {(int response.StatusCode)} ({response.ReasonPhrase}) from {requestUri}: {trimBody body}")
         else
-            Ok ()
+            Ok()
 
     let ensureSuccess (response: HttpResponseMessage) (body: string) =
         match ensureSuccessResult response body with
-        | Ok () -> ()
+        | Ok() -> ()
         | Error error -> raise (StravaApiException(error))
 
     let postFormResultAsync (url: string) (pairs: (string * string) list) =
         task {
             use content =
-                new FormUrlEncodedContent(
-                    pairs
-                    |> Seq.map (fun (k, v) -> KeyValuePair<string, string>(k, v))
-                )
+                new FormUrlEncodedContent(pairs |> Seq.map (fun (k, v) -> KeyValuePair<string, string>(k, v)))
 
             use! response = client.PostAsync(url, content)
             let! body = response.Content.ReadAsStringAsync()
@@ -166,8 +162,7 @@ type TokenResponse =
     { access_token: string
       refresh_token: string }
 
-type Athlete =
-    { id: int64 }
+type Athlete = { id: int64 }
 
 type RideTotals =
     { count: int
@@ -205,7 +200,9 @@ module Strava =
                       "refresh_token", refreshToken
                       "grant_type", "refresh_token" ]
 
-            return bodyResult |> Result.bind (Json.deserializeResult<TokenResponse> "token response")
+            return
+                bodyResult
+                |> Result.bind (Json.deserializeResult<TokenResponse> "token response")
         }
 
     let refreshTokenAsync clientId clientSecret refreshToken =
@@ -255,7 +252,9 @@ module Strava =
             let! bodyResult =
                 Http.getJsonResultAsync $"{baseUrl}/api/v3/athlete/activities?per_page=200&page={page}" accessToken
 
-            return bodyResult |> Result.bind (Json.deserializeResult<Activity array> $"activities page {page}")
+            return
+                bodyResult
+                |> Result.bind (Json.deserializeResult<Activity array> $"activities page {page}")
         }
 
     let getActivitiesPageAsync accessToken page =
@@ -275,16 +274,15 @@ module Normalize =
 
     let private isCycling (activity: Activity) =
         let knownCycling =
-            set [
-                "Ride"
-                "VirtualRide"
-                "EBikeRide"
-                "MountainBikeRide"
-                "GravelRide"
-                "Handcycle"
-                "Velomobile"
-                "EMountainBikeRide"
-            ]
+            set
+                [ "Ride"
+                  "VirtualRide"
+                  "EBikeRide"
+                  "MountainBikeRide"
+                  "GravelRide"
+                  "Handcycle"
+                  "Velomobile"
+                  "EMountainBikeRide" ]
 
         knownCycling.Contains(activity.sport_type)
         || activity.sport_type.EndsWith("Ride", StringComparison.Ordinal)
@@ -300,9 +298,7 @@ module Normalize =
 
     let build athlete stats (activities: Activity list) =
         let cyclingActivities =
-            activities
-            |> List.filter isCycling
-            |> List.sortBy (fun a -> a.start_date)
+            activities |> List.filter isCycling |> List.sortBy (fun a -> a.start_date)
 
         let weeklyMiles =
             cyclingActivities
@@ -386,8 +382,7 @@ module App =
                 |> Async.RunSynchronously }
 
     let private requireNonBlank error value =
-        value
-        |> Result.require (String.IsNullOrWhiteSpace >> not) error
+        value |> Result.require (String.IsNullOrWhiteSpace >> not) error
 
     let private validateTokenResponse (tokenResponse: TokenResponse) =
         requireNonBlank "Token refresh response did not include an access_token" tokenResponse.access_token
@@ -397,27 +392,30 @@ module App =
                 { accessToken = accessToken
                   refreshToken = refreshToken }))
 
-    let private fetchAllActivities (getActivitiesPage: string -> int -> Result<Activity array, string>) (accessToken: string) =
+    let private fetchAllActivities
+        (getActivitiesPage: string -> int -> Result<Activity array, string>)
+        (accessToken: string)
+        =
         Seq.initInfinite ((+) 1)
         |> Seq.map (fun page -> getActivitiesPage accessToken page)
         |> Seq.scan
             (fun state next ->
                 match state with
                 | Error error -> Error error
-                | Ok (true, activities) ->
+                | Ok(true, activities) ->
                     match next with
                     | Error error -> Error error
                     | Ok pageActivities when pageActivities.Length = 0 -> Ok(false, activities)
                     | Ok pageActivities -> Ok(true, List.append activities (List.ofArray pageActivities))
-                | Ok (false, activities) -> Ok(false, activities))
+                | Ok(false, activities) -> Ok(false, activities))
             (Ok(true, []))
         |> Seq.skip 1
         |> Seq.tryFind (function
             | Error _ -> true
             | Ok(continuePaging, _) -> not continuePaging)
         |> function
-            | Some (Error error) -> Error error
-            | Some (Ok (_, activities)) -> Ok activities
+            | Some(Error error) -> Error error
+            | Some(Ok(_, activities)) -> Ok activities
             | None -> Ok []
 
     let internal fetchNormalizedJsonResult (dependencies: FetchDependencies) clientId clientSecret refreshToken =
