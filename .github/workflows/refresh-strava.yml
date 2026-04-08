@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -42,7 +43,7 @@ jobs:
 
       - name: Preserve rotated refresh token
         env:
-          GH_TOKEN: ${{ secrets.AUTOMATION_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           latest_token="$(sed -n 's/^Latest STRAVA_REFRESH_TOKEN=//p' strava-fetcher.stderr | tail -n 1)"

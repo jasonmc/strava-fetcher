@@ -129,16 +129,15 @@ Required source-repo secrets:
 - `STRAVA_CLIENT_ID`
 - `STRAVA_CLIENT_SECRET`
 - `STRAVA_REFRESH_TOKEN`
-- `AUTOMATION_TOKEN`
 
 Optional source-repo variable:
 
 - `SNAPSHOT_BRANCH`: branch name that will store `strava-stats.json` only. Defaults to `strava-snapshots`.
 
-`AUTOMATION_TOKEN` should be a PAT or GitHub App token that can:
+Repository Actions workflow permissions should be set to `Read and write permissions` so the built-in `GITHUB_TOKEN` can:
 
-- write to this repo
-- update Actions secrets in this repo, specifically `STRAVA_REFRESH_TOKEN`
+- push `strava-stats.json` to the snapshot branch
+- update the `STRAVA_REFRESH_TOKEN` repo secret
 
 Important behavior:
 
