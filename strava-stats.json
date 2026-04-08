@@ -1,0 +1,3728 @@
+{
+  "all_ride_totals": {
+    "count": 2517,
+    "distance": 94259.34,
+    "moving_time": 15725724,
+    "elapsed_time": 26536138,
+    "elevation_gain": 813412.2,
+    "achievement_count": null
+  },
+  "annual_ride_totals": [
+    {
+      "elevation": 1312.5,
+      "hours": 25.51,
+      "kilometers": 429.35,
+      "rides": 4,
+      "year": 2015
+    },
+    {
+      "elevation": 18066,
+      "hours": 192.52,
+      "kilometers": 3805.74,
+      "rides": 119,
+      "year": 2016
+    },
+    {
+      "elevation": 40746.8,
+      "hours": 374.62,
+      "kilometers": 7183.34,
+      "rides": 269,
+      "year": 2017
+    },
+    {
+      "elevation": 45471.9,
+      "hours": 286.53,
+      "kilometers": 5931.1,
+      "rides": 137,
+      "year": 2018
+    },
+    {
+      "elevation": 66262.1,
+      "hours": 442.53,
+      "kilometers": 8541.52,
+      "rides": 349,
+      "year": 2019
+    },
+    {
+      "elevation": 58055.9,
+      "hours": 323.63,
+      "kilometers": 7121.28,
+      "rides": 165,
+      "year": 2020
+    },
+    {
+      "elevation": 86109.3,
+      "hours": 456.16,
+      "kilometers": 10052.28,
+      "rides": 340,
+      "year": 2021
+    },
+    {
+      "elevation": 121148.4,
+      "hours": 598.04,
+      "kilometers": 12876.84,
+      "rides": 391,
+      "year": 2022
+    },
+    {
+      "elevation": 101647,
+      "hours": 448.71,
+      "kilometers": 10054.51,
+      "rides": 209,
+      "year": 2023
+    },
+    {
+      "elevation": 116017,
+      "hours": 554.86,
+      "kilometers": 12562.8,
+      "rides": 320,
+      "year": 2024
+    },
+    {
+      "elevation": 144009.2,
+      "hours": 610.98,
+      "kilometers": 14575.77,
+      "rides": 234,
+      "year": 2025
+    },
+    {
+      "elevation": 15852,
+      "hours": 72.43,
+      "kilometers": 1486.01,
+      "rides": 24,
+      "year": 2026
+    }
+  ],
+  "athlete_id": 11045355,
+  "biggest_climb_elevation_gain": 904,
+  "biggest_ride_distance": 370.85,
+  "fetched_at": "2026-04-08T20:54:13.0585771\u002B00:00",
+  "recent_ride_totals": {
+    "count": 10,
+    "distance": 652.8,
+    "moving_time": 107054,
+    "elapsed_time": 159640,
+    "elevation_gain": 6169,
+    "achievement_count": 0
+  },
+  "weekly_ride_hours": [
+    {
+      "hours": 8,
+      "week_start": "2015-08-31"
+    },
+    {
+      "hours": 11.66,
+      "week_start": "2015-09-07"
+    },
+    {
+      "hours": 5.85,
+      "week_start": "2015-10-05"
+    },
+    {
+      "hours": 6.3,
+      "week_start": "2016-04-11"
+    },
+    {
+      "hours": 3.39,
+      "week_start": "2016-04-18"
+    },
+    {
+      "hours": 2.08,
+      "week_start": "2016-04-25"
+    },
+    {
+      "hours": 9.57,
+      "week_start": "2016-05-16"
+    },
+    {
+      "hours": 2.05,
+      "week_start": "2016-05-23"
+    },
+    {
+      "hours": 8.23,
+      "week_start": "2016-06-20"
+    },
+    {
+      "hours": 4.46,
+      "week_start": "2016-06-27"
+    },
+    {
+      "hours": 12.4,
+      "week_start": "2016-07-04"
+    },
+    {
+      "hours": 1.46,
+      "week_start": "2016-07-11"
+    },
+    {
+      "hours": 2.69,
+      "week_start": "2016-07-18"
+    },
+    {
+      "hours": 1.2,
+      "week_start": "2016-07-25"
+    },
+    {
+      "hours": 3.86,
+      "week_start": "2016-08-01"
+    },
+    {
+      "hours": 5.59,
+      "week_start": "2016-08-08"
+    },
+    {
+      "hours": 5.42,
+      "week_start": "2016-08-15"
+    },
+    {
+      "hours": 3.36,
+      "week_start": "2016-08-22"
+    },
+    {
+      "hours": 7.88,
+      "week_start": "2016-08-29"
+    },
+    {
+      "hours": 12.51,
+      "week_start": "2016-09-05"
+    },
+    {
+      "hours": 4.63,
+      "week_start": "2016-09-12"
+    },
+    {
+      "hours": 12.17,
+      "week_start": "2016-09-19"
+    },
+    {
+      "hours": 2.73,
+      "week_start": "2016-09-26"
+    },
+    {
+      "hours": 5.71,
+      "week_start": "2016-10-03"
+    },
+    {
+      "hours": 9.16,
+      "week_start": "2016-10-10"
+    },
+    {
+      "hours": 8.56,
+      "week_start": "2016-10-17"
+    },
+    {
+      "hours": 10.87,
+      "week_start": "2016-10-24"
+    },
+    {
+      "hours": 11.27,
+      "week_start": "2016-10-31"
+    },
+    {
+      "hours": 4.4,
+      "week_start": "2016-11-07"
+    },
+    {
+      "hours": 9.16,
+      "week_start": "2016-11-14"
+    },
+    {
+      "hours": 6.72,
+      "week_start": "2016-11-21"
+    },
+    {
+      "hours": 5.83,
+      "week_start": "2016-11-28"
+    },
+    {
+      "hours": 5.86,
+      "week_start": "2016-12-05"
+    },
+    {
+      "hours": 1.74,
+      "week_start": "2016-12-12"
+    },
+    {
+      "hours": 1.28,
+      "week_start": "2016-12-19"
+    },
+    {
+      "hours": 5.97,
+      "week_start": "2017-01-09"
+    },
+    {
+      "hours": 4.34,
+      "week_start": "2017-01-16"
+    },
+    {
+      "hours": 6.39,
+      "week_start": "2017-01-23"
+    },
+    {
+      "hours": 2.18,
+      "week_start": "2017-01-30"
+    },
+    {
+      "hours": 3.34,
+      "week_start": "2017-02-06"
+    },
+    {
+      "hours": 5.87,
+      "week_start": "2017-02-13"
+    },
+    {
+      "hours": 7.7,
+      "week_start": "2017-02-20"
+    },
+    {
+      "hours": 3.88,
+      "week_start": "2017-02-27"
+    },
+    {
+      "hours": 3.71,
+      "week_start": "2017-03-06"
+    },
+    {
+      "hours": 5.22,
+      "week_start": "2017-03-13"
+    },
+    {
+      "hours": 3.86,
+      "week_start": "2017-03-20"
+    },
+    {
+      "hours": 8.14,
+      "week_start": "2017-03-27"
+    },
+    {
+      "hours": 11.28,
+      "week_start": "2017-04-03"
+    },
+    {
+      "hours": 13.22,
+      "week_start": "2017-04-10"
+    },
+    {
+      "hours": 7.3,
+      "week_start": "2017-04-17"
+    },
+    {
+      "hours": 7.82,
+      "week_start": "2017-04-24"
+    },
+    {
+      "hours": 12.03,
+      "week_start": "2017-05-01"
+    },
+    {
+      "hours": 10.29,
+      "week_start": "2017-05-08"
+    },
+    {
+      "hours": 7.46,
+      "week_start": "2017-06-05"
+    },
+    {
+      "hours": 8.45,
+      "week_start": "2017-06-12"
+    },
+    {
+      "hours": 10.64,
+      "week_start": "2017-06-19"
+    },
+    {
+      "hours": 11.51,
+      "week_start": "2017-06-26"
+    },
+    {
+      "hours": 12.31,
+      "week_start": "2017-07-03"
+    },
+    {
+      "hours": 13.62,
+      "week_start": "2017-07-10"
+    },
+    {
+      "hours": 16.77,
+      "week_start": "2017-07-17"
+    },
+    {
+      "hours": 6.56,
+      "week_start": "2017-07-24"
+    },
+    {
+      "hours": 4.41,
+      "week_start": "2017-07-31"
+    },
+    {
+      "hours": 8.83,
+      "week_start": "2017-08-07"
+    },
+    {
+      "hours": 8.32,
+      "week_start": "2017-08-14"
+    },
+    {
+      "hours": 5.01,
+      "week_start": "2017-08-21"
+    },
+    {
+      "hours": 9.27,
+      "week_start": "2017-08-28"
+    },
+    {
+      "hours": 13.96,
+      "week_start": "2017-09-04"
+    },
+    {
+      "hours": 15.32,
+      "week_start": "2017-09-11"
+    },
+    {
+      "hours": 8.2,
+      "week_start": "2017-09-18"
+    },
+    {
+      "hours": 11.92,
+      "week_start": "2017-09-25"
+    },
+    {
+      "hours": 9.99,
+      "week_start": "2017-10-02"
+    },
+    {
+      "hours": 16.09,
+      "week_start": "2017-10-09"
+    },
+    {
+      "hours": 11.05,
+      "week_start": "2017-10-16"
+    },
+    {
+      "hours": 6.91,
+      "week_start": "2017-10-23"
+    },
+    {
+      "hours": 10.54,
+      "week_start": "2017-10-30"
+    },
+    {
+      "hours": 3.17,
+      "week_start": "2017-11-06"
+    },
+    {
+      "hours": 5.17,
+      "week_start": "2017-11-13"
+    },
+    {
+      "hours": 9.46,
+      "week_start": "2017-11-20"
+    },
+    {
+      "hours": 1.62,
+      "week_start": "2017-11-27"
+    },
+    {
+      "hours": 5.56,
+      "week_start": "2017-12-04"
+    },
+    {
+      "hours": 4.32,
+      "week_start": "2018-01-29"
+    },
+    {
+      "hours": 2.03,
+      "week_start": "2018-02-12"
+    },
+    {
+      "hours": 2.13,
+      "week_start": "2018-02-19"
+    },
+    {
+      "hours": 2.38,
+      "week_start": "2018-02-26"
+    },
+    {
+      "hours": 5.18,
+      "week_start": "2018-03-05"
+    },
+    {
+      "hours": 10.13,
+      "week_start": "2018-03-12"
+    },
+    {
+      "hours": 9.6,
+      "week_start": "2018-03-19"
+    },
+    {
+      "hours": 4.53,
+      "week_start": "2018-03-26"
+    },
+    {
+      "hours": 8.53,
+      "week_start": "2018-04-02"
+    },
+    {
+      "hours": 8.12,
+      "week_start": "2018-04-09"
+    },
+    {
+      "hours": 9.84,
+      "week_start": "2018-04-16"
+    },
+    {
+      "hours": 7.76,
+      "week_start": "2018-04-23"
+    },
+    {
+      "hours": 23.63,
+      "week_start": "2018-04-30"
+    },
+    {
+      "hours": 4.52,
+      "week_start": "2018-05-07"
+    },
+    {
+      "hours": 13.27,
+      "week_start": "2018-05-14"
+    },
+    {
+      "hours": 2.15,
+      "week_start": "2018-05-21"
+    },
+    {
+      "hours": 4.12,
+      "week_start": "2018-05-28"
+    },
+    {
+      "hours": 8.95,
+      "week_start": "2018-06-04"
+    },
+    {
+      "hours": 6.17,
+      "week_start": "2018-06-11"
+    },
+    {
+      "hours": 13.13,
+      "week_start": "2018-06-18"
+    },
+    {
+      "hours": 8.19,
+      "week_start": "2018-06-25"
+    },
+    {
+      "hours": 13.86,
+      "week_start": "2018-07-02"
+    },
+    {
+      "hours": 13.62,
+      "week_start": "2018-07-09"
+    },
+    {
+      "hours": 7.02,
+      "week_start": "2018-07-16"
+    },
+    {
+      "hours": 1.94,
+      "week_start": "2018-07-23"
+    },
+    {
+      "hours": 4.82,
+      "week_start": "2018-07-30"
+    },
+    {
+      "hours": 6.4,
+      "week_start": "2018-08-06"
+    },
+    {
+      "hours": 6.34,
+      "week_start": "2018-08-13"
+    },
+    {
+      "hours": 3.58,
+      "week_start": "2018-08-20"
+    },
+    {
+      "hours": 4.87,
+      "week_start": "2018-08-27"
+    },
+    {
+      "hours": 6.38,
+      "week_start": "2018-09-03"
+    },
+    {
+      "hours": 9.27,
+      "week_start": "2018-09-17"
+    },
+    {
+      "hours": 7.92,
+      "week_start": "2018-10-01"
+    },
+    {
+      "hours": 2.24,
+      "week_start": "2018-10-08"
+    },
+    {
+      "hours": 7.8,
+      "week_start": "2018-10-15"
+    },
+    {
+      "hours": 6.12,
+      "week_start": "2018-10-29"
+    },
+    {
+      "hours": 7.53,
+      "week_start": "2018-11-05"
+    },
+    {
+      "hours": 2.01,
+      "week_start": "2018-11-12"
+    },
+    {
+      "hours": 1.76,
+      "week_start": "2018-11-19"
+    },
+    {
+      "hours": 1.81,
+      "week_start": "2018-11-26"
+    },
+    {
+      "hours": 6.96,
+      "week_start": "2018-12-03"
+    },
+    {
+      "hours": 1.76,
+      "week_start": "2018-12-17"
+    },
+    {
+      "hours": 3.86,
+      "week_start": "2018-12-24"
+    },
+    {
+      "hours": 0.33,
+      "week_start": "2019-01-07"
+    },
+    {
+      "hours": 4.89,
+      "week_start": "2019-01-14"
+    },
+    {
+      "hours": 3.43,
+      "week_start": "2019-01-21"
+    },
+    {
+      "hours": 4.19,
+      "week_start": "2019-02-11"
+    },
+    {
+      "hours": 0.72,
+      "week_start": "2019-02-18"
+    },
+    {
+      "hours": 0.72,
+      "week_start": "2019-02-25"
+    },
+    {
+      "hours": 4.78,
+      "week_start": "2019-03-04"
+    },
+    {
+      "hours": 4.86,
+      "week_start": "2019-03-11"
+    },
+    {
+      "hours": 6.45,
+      "week_start": "2019-03-18"
+    },
+    {
+      "hours": 5.8,
+      "week_start": "2019-03-25"
+    },
+    {
+      "hours": 13.74,
+      "week_start": "2019-04-01"
+    },
+    {
+      "hours": 13.13,
+      "week_start": "2019-04-08"
+    },
+    {
+      "hours": 8.76,
+      "week_start": "2019-04-15"
+    },
+    {
+      "hours": 10.12,
+      "week_start": "2019-04-22"
+    },
+    {
+      "hours": 12.97,
+      "week_start": "2019-04-29"
+    },
+    {
+      "hours": 12.96,
+      "week_start": "2019-05-06"
+    },
+    {
+      "hours": 16.76,
+      "week_start": "2019-05-13"
+    },
+    {
+      "hours": 17.2,
+      "week_start": "2019-05-20"
+    },
+    {
+      "hours": 10.33,
+      "week_start": "2019-05-27"
+    },
+    {
+      "hours": 16.34,
+      "week_start": "2019-06-03"
+    },
+    {
+      "hours": 10.36,
+      "week_start": "2019-06-10"
+    },
+    {
+      "hours": 8.62,
+      "week_start": "2019-06-17"
+    },
+    {
+      "hours": 13.3,
+      "week_start": "2019-06-24"
+    },
+    {
+      "hours": 19.57,
+      "week_start": "2019-07-01"
+    },
+    {
+      "hours": 14.72,
+      "week_start": "2019-07-08"
+    },
+    {
+      "hours": 7.26,
+      "week_start": "2019-07-15"
+    },
+    {
+      "hours": 17.16,
+      "week_start": "2019-07-22"
+    },
+    {
+      "hours": 16.44,
+      "week_start": "2019-07-29"
+    },
+    {
+      "hours": 15.82,
+      "week_start": "2019-08-05"
+    },
+    {
+      "hours": 11.08,
+      "week_start": "2019-08-12"
+    },
+    {
+      "hours": 3.49,
+      "week_start": "2019-08-19"
+    },
+    {
+      "hours": 13.88,
+      "week_start": "2019-09-02"
+    },
+    {
+      "hours": 17.87,
+      "week_start": "2019-09-09"
+    },
+    {
+      "hours": 8.73,
+      "week_start": "2019-09-16"
+    },
+    {
+      "hours": 16.97,
+      "week_start": "2019-09-23"
+    },
+    {
+      "hours": 8.86,
+      "week_start": "2019-09-30"
+    },
+    {
+      "hours": 12.35,
+      "week_start": "2019-10-07"
+    },
+    {
+      "hours": 3.55,
+      "week_start": "2019-10-14"
+    },
+    {
+      "hours": 11.66,
+      "week_start": "2019-10-21"
+    },
+    {
+      "hours": 7.59,
+      "week_start": "2019-10-28"
+    },
+    {
+      "hours": 10.1,
+      "week_start": "2019-11-04"
+    },
+    {
+      "hours": 9.72,
+      "week_start": "2019-11-11"
+    },
+    {
+      "hours": 2.34,
+      "week_start": "2019-11-18"
+    },
+    {
+      "hours": 3.45,
+      "week_start": "2019-11-25"
+    },
+    {
+      "hours": 9.15,
+      "week_start": "2019-12-23"
+    },
+    {
+      "hours": 7.84,
+      "week_start": "2020-01-06"
+    },
+    {
+      "hours": 4.92,
+      "week_start": "2020-01-20"
+    },
+    {
+      "hours": 0.18,
+      "week_start": "2020-02-03"
+    },
+    {
+      "hours": 6.49,
+      "week_start": "2020-02-24"
+    },
+    {
+      "hours": 6.19,
+      "week_start": "2020-03-02"
+    },
+    {
+      "hours": 5.68,
+      "week_start": "2020-03-09"
+    },
+    {
+      "hours": 1.45,
+      "week_start": "2020-03-16"
+    },
+    {
+      "hours": 4.5,
+      "week_start": "2020-03-23"
+    },
+    {
+      "hours": 6.07,
+      "week_start": "2020-03-30"
+    },
+    {
+      "hours": 6.34,
+      "week_start": "2020-04-06"
+    },
+    {
+      "hours": 11.02,
+      "week_start": "2020-04-13"
+    },
+    {
+      "hours": 3.37,
+      "week_start": "2020-04-20"
+    },
+    {
+      "hours": 11.58,
+      "week_start": "2020-04-27"
+    },
+    {
+      "hours": 13.74,
+      "week_start": "2020-05-04"
+    },
+    {
+      "hours": 12.42,
+      "week_start": "2020-05-11"
+    },
+    {
+      "hours": 11.29,
+      "week_start": "2020-05-18"
+    },
+    {
+      "hours": 15.57,
+      "week_start": "2020-05-25"
+    },
+    {
+      "hours": 10.3,
+      "week_start": "2020-06-01"
+    },
+    {
+      "hours": 9.68,
+      "week_start": "2020-06-08"
+    },
+    {
+      "hours": 4.46,
+      "week_start": "2020-06-15"
+    },
+    {
+      "hours": 16.94,
+      "week_start": "2020-06-22"
+    },
+    {
+      "hours": 16.79,
+      "week_start": "2020-06-29"
+    },
+    {
+      "hours": 8.89,
+      "week_start": "2020-07-06"
+    },
+    {
+      "hours": 12.84,
+      "week_start": "2020-07-13"
+    },
+    {
+      "hours": 11.62,
+      "week_start": "2020-07-20"
+    },
+    {
+      "hours": 10.17,
+      "week_start": "2020-07-27"
+    },
+    {
+      "hours": 11.32,
+      "week_start": "2020-08-03"
+    },
+    {
+      "hours": 11.95,
+      "week_start": "2020-08-10"
+    },
+    {
+      "hours": 10.46,
+      "week_start": "2020-08-17"
+    },
+    {
+      "hours": 10.61,
+      "week_start": "2020-08-24"
+    },
+    {
+      "hours": 12.23,
+      "week_start": "2020-08-31"
+    },
+    {
+      "hours": 6.03,
+      "week_start": "2020-09-07"
+    },
+    {
+      "hours": 30.68,
+      "week_start": "2020-09-14"
+    },
+    {
+      "hours": 2.03,
+      "week_start": "2020-12-28"
+    },
+    {
+      "hours": 4.32,
+      "week_start": "2021-01-04"
+    },
+    {
+      "hours": 3.72,
+      "week_start": "2021-01-11"
+    },
+    {
+      "hours": 6.98,
+      "week_start": "2021-01-18"
+    },
+    {
+      "hours": 2.13,
+      "week_start": "2021-01-25"
+    },
+    {
+      "hours": 2.81,
+      "week_start": "2021-02-08"
+    },
+    {
+      "hours": 0.77,
+      "week_start": "2021-02-15"
+    },
+    {
+      "hours": 1.87,
+      "week_start": "2021-02-22"
+    },
+    {
+      "hours": 1.42,
+      "week_start": "2021-03-01"
+    },
+    {
+      "hours": 6.08,
+      "week_start": "2021-03-08"
+    },
+    {
+      "hours": 10.33,
+      "week_start": "2021-03-15"
+    },
+    {
+      "hours": 7.3,
+      "week_start": "2021-03-22"
+    },
+    {
+      "hours": 9.75,
+      "week_start": "2021-03-29"
+    },
+    {
+      "hours": 8.69,
+      "week_start": "2021-04-05"
+    },
+    {
+      "hours": 8.23,
+      "week_start": "2021-04-12"
+    },
+    {
+      "hours": 10.62,
+      "week_start": "2021-04-19"
+    },
+    {
+      "hours": 8.3,
+      "week_start": "2021-04-26"
+    },
+    {
+      "hours": 7.29,
+      "week_start": "2021-05-03"
+    },
+    {
+      "hours": 12.6,
+      "week_start": "2021-05-10"
+    },
+    {
+      "hours": 13.19,
+      "week_start": "2021-05-17"
+    },
+    {
+      "hours": 0.66,
+      "week_start": "2021-05-24"
+    },
+    {
+      "hours": 16,
+      "week_start": "2021-05-31"
+    },
+    {
+      "hours": 6.52,
+      "week_start": "2021-06-07"
+    },
+    {
+      "hours": 14.37,
+      "week_start": "2021-06-14"
+    },
+    {
+      "hours": 19.5,
+      "week_start": "2021-06-21"
+    },
+    {
+      "hours": 2.96,
+      "week_start": "2021-06-28"
+    },
+    {
+      "hours": 11.25,
+      "week_start": "2021-07-05"
+    },
+    {
+      "hours": 10.49,
+      "week_start": "2021-07-12"
+    },
+    {
+      "hours": 15.7,
+      "week_start": "2021-07-19"
+    },
+    {
+      "hours": 10.04,
+      "week_start": "2021-07-26"
+    },
+    {
+      "hours": 11.39,
+      "week_start": "2021-08-02"
+    },
+    {
+      "hours": 13.63,
+      "week_start": "2021-08-09"
+    },
+    {
+      "hours": 5.96,
+      "week_start": "2021-08-16"
+    },
+    {
+      "hours": 5.73,
+      "week_start": "2021-08-23"
+    },
+    {
+      "hours": 17,
+      "week_start": "2021-08-30"
+    },
+    {
+      "hours": 15.86,
+      "week_start": "2021-09-06"
+    },
+    {
+      "hours": 16.31,
+      "week_start": "2021-09-13"
+    },
+    {
+      "hours": 15.65,
+      "week_start": "2021-09-20"
+    },
+    {
+      "hours": 11.34,
+      "week_start": "2021-09-27"
+    },
+    {
+      "hours": 10.25,
+      "week_start": "2021-10-04"
+    },
+    {
+      "hours": 12.08,
+      "week_start": "2021-10-11"
+    },
+    {
+      "hours": 12.14,
+      "week_start": "2021-10-18"
+    },
+    {
+      "hours": 0.27,
+      "week_start": "2021-10-25"
+    },
+    {
+      "hours": 9.29,
+      "week_start": "2021-11-01"
+    },
+    {
+      "hours": 10.36,
+      "week_start": "2021-11-08"
+    },
+    {
+      "hours": 6.48,
+      "week_start": "2021-11-15"
+    },
+    {
+      "hours": 1.53,
+      "week_start": "2021-11-22"
+    },
+    {
+      "hours": 9.2,
+      "week_start": "2021-11-29"
+    },
+    {
+      "hours": 7.54,
+      "week_start": "2021-12-06"
+    },
+    {
+      "hours": 10.95,
+      "week_start": "2021-12-13"
+    },
+    {
+      "hours": 11,
+      "week_start": "2021-12-20"
+    },
+    {
+      "hours": 6.58,
+      "week_start": "2021-12-27"
+    },
+    {
+      "hours": 5.79,
+      "week_start": "2022-01-03"
+    },
+    {
+      "hours": 6.11,
+      "week_start": "2022-01-10"
+    },
+    {
+      "hours": 7.93,
+      "week_start": "2022-01-17"
+    },
+    {
+      "hours": 6.61,
+      "week_start": "2022-01-24"
+    },
+    {
+      "hours": 5.91,
+      "week_start": "2022-01-31"
+    },
+    {
+      "hours": 10.94,
+      "week_start": "2022-02-07"
+    },
+    {
+      "hours": 1.8,
+      "week_start": "2022-02-14"
+    },
+    {
+      "hours": 9.74,
+      "week_start": "2022-02-21"
+    },
+    {
+      "hours": 8.32,
+      "week_start": "2022-02-28"
+    },
+    {
+      "hours": 8.39,
+      "week_start": "2022-03-07"
+    },
+    {
+      "hours": 17.68,
+      "week_start": "2022-03-14"
+    },
+    {
+      "hours": 10.07,
+      "week_start": "2022-03-21"
+    },
+    {
+      "hours": 6.37,
+      "week_start": "2022-03-28"
+    },
+    {
+      "hours": 7.66,
+      "week_start": "2022-04-04"
+    },
+    {
+      "hours": 34.94,
+      "week_start": "2022-04-11"
+    },
+    {
+      "hours": 15.75,
+      "week_start": "2022-04-18"
+    },
+    {
+      "hours": 13.1,
+      "week_start": "2022-04-25"
+    },
+    {
+      "hours": 4.14,
+      "week_start": "2022-05-02"
+    },
+    {
+      "hours": 13.62,
+      "week_start": "2022-05-09"
+    },
+    {
+      "hours": 8.97,
+      "week_start": "2022-05-16"
+    },
+    {
+      "hours": 11.52,
+      "week_start": "2022-05-23"
+    },
+    {
+      "hours": 18.27,
+      "week_start": "2022-05-30"
+    },
+    {
+      "hours": 11.99,
+      "week_start": "2022-06-06"
+    },
+    {
+      "hours": 12.65,
+      "week_start": "2022-06-13"
+    },
+    {
+      "hours": 14.17,
+      "week_start": "2022-06-27"
+    },
+    {
+      "hours": 20.07,
+      "week_start": "2022-07-04"
+    },
+    {
+      "hours": 17,
+      "week_start": "2022-07-11"
+    },
+    {
+      "hours": 13.23,
+      "week_start": "2022-07-18"
+    },
+    {
+      "hours": 14.45,
+      "week_start": "2022-07-25"
+    },
+    {
+      "hours": 12.09,
+      "week_start": "2022-08-01"
+    },
+    {
+      "hours": 19.45,
+      "week_start": "2022-08-08"
+    },
+    {
+      "hours": 11.77,
+      "week_start": "2022-08-15"
+    },
+    {
+      "hours": 16.1,
+      "week_start": "2022-08-22"
+    },
+    {
+      "hours": 17.86,
+      "week_start": "2022-08-29"
+    },
+    {
+      "hours": 10.77,
+      "week_start": "2022-09-05"
+    },
+    {
+      "hours": 15.45,
+      "week_start": "2022-09-12"
+    },
+    {
+      "hours": 8.56,
+      "week_start": "2022-09-19"
+    },
+    {
+      "hours": 1.65,
+      "week_start": "2022-09-26"
+    },
+    {
+      "hours": 11.53,
+      "week_start": "2022-10-03"
+    },
+    {
+      "hours": 9.88,
+      "week_start": "2022-10-10"
+    },
+    {
+      "hours": 24.01,
+      "week_start": "2022-10-17"
+    },
+    {
+      "hours": 13.6,
+      "week_start": "2022-10-24"
+    },
+    {
+      "hours": 15.59,
+      "week_start": "2022-10-31"
+    },
+    {
+      "hours": 20.88,
+      "week_start": "2022-11-07"
+    },
+    {
+      "hours": 4.76,
+      "week_start": "2022-11-14"
+    },
+    {
+      "hours": 15.88,
+      "week_start": "2022-11-21"
+    },
+    {
+      "hours": 6.88,
+      "week_start": "2022-11-28"
+    },
+    {
+      "hours": 2.16,
+      "week_start": "2022-12-05"
+    },
+    {
+      "hours": 6.27,
+      "week_start": "2022-12-12"
+    },
+    {
+      "hours": 1.6,
+      "week_start": "2022-12-19"
+    },
+    {
+      "hours": 13.85,
+      "week_start": "2022-12-26"
+    },
+    {
+      "hours": 4.67,
+      "week_start": "2023-01-16"
+    },
+    {
+      "hours": 4.85,
+      "week_start": "2023-01-23"
+    },
+    {
+      "hours": 5.38,
+      "week_start": "2023-02-06"
+    },
+    {
+      "hours": 16.58,
+      "week_start": "2023-02-13"
+    },
+    {
+      "hours": 11.41,
+      "week_start": "2023-02-20"
+    },
+    {
+      "hours": 6.17,
+      "week_start": "2023-02-27"
+    },
+    {
+      "hours": 3.79,
+      "week_start": "2023-03-06"
+    },
+    {
+      "hours": 6.07,
+      "week_start": "2023-03-13"
+    },
+    {
+      "hours": 5.48,
+      "week_start": "2023-03-20"
+    },
+    {
+      "hours": 2.48,
+      "week_start": "2023-03-27"
+    },
+    {
+      "hours": 6.58,
+      "week_start": "2023-04-03"
+    },
+    {
+      "hours": 11.13,
+      "week_start": "2023-04-10"
+    },
+    {
+      "hours": 9.2,
+      "week_start": "2023-04-17"
+    },
+    {
+      "hours": 7.82,
+      "week_start": "2023-04-24"
+    },
+    {
+      "hours": 8.58,
+      "week_start": "2023-05-01"
+    },
+    {
+      "hours": 13.55,
+      "week_start": "2023-05-08"
+    },
+    {
+      "hours": 9.32,
+      "week_start": "2023-05-15"
+    },
+    {
+      "hours": 16.29,
+      "week_start": "2023-05-22"
+    },
+    {
+      "hours": 25.28,
+      "week_start": "2023-05-29"
+    },
+    {
+      "hours": 14,
+      "week_start": "2023-06-05"
+    },
+    {
+      "hours": 17.5,
+      "week_start": "2023-06-12"
+    },
+    {
+      "hours": 11.01,
+      "week_start": "2023-06-19"
+    },
+    {
+      "hours": 2.63,
+      "week_start": "2023-06-26"
+    },
+    {
+      "hours": 12.72,
+      "week_start": "2023-07-03"
+    },
+    {
+      "hours": 5.94,
+      "week_start": "2023-07-10"
+    },
+    {
+      "hours": 12.66,
+      "week_start": "2023-07-17"
+    },
+    {
+      "hours": 9.04,
+      "week_start": "2023-07-24"
+    },
+    {
+      "hours": 19.14,
+      "week_start": "2023-07-31"
+    },
+    {
+      "hours": 10.65,
+      "week_start": "2023-08-07"
+    },
+    {
+      "hours": 12.73,
+      "week_start": "2023-08-14"
+    },
+    {
+      "hours": 11.89,
+      "week_start": "2023-08-21"
+    },
+    {
+      "hours": 16.3,
+      "week_start": "2023-08-28"
+    },
+    {
+      "hours": 7.97,
+      "week_start": "2023-09-04"
+    },
+    {
+      "hours": 10.31,
+      "week_start": "2023-09-11"
+    },
+    {
+      "hours": 22.97,
+      "week_start": "2023-09-18"
+    },
+    {
+      "hours": 22.34,
+      "week_start": "2023-09-25"
+    },
+    {
+      "hours": 8.76,
+      "week_start": "2023-10-02"
+    },
+    {
+      "hours": 6.14,
+      "week_start": "2023-10-09"
+    },
+    {
+      "hours": 6.29,
+      "week_start": "2023-10-16"
+    },
+    {
+      "hours": 7.91,
+      "week_start": "2023-10-23"
+    },
+    {
+      "hours": 3.42,
+      "week_start": "2023-10-30"
+    },
+    {
+      "hours": 4.74,
+      "week_start": "2023-11-06"
+    },
+    {
+      "hours": 7.17,
+      "week_start": "2023-11-13"
+    },
+    {
+      "hours": 0.99,
+      "week_start": "2023-11-20"
+    },
+    {
+      "hours": 3.51,
+      "week_start": "2023-12-04"
+    },
+    {
+      "hours": 4.53,
+      "week_start": "2023-12-11"
+    },
+    {
+      "hours": 0.81,
+      "week_start": "2023-12-18"
+    },
+    {
+      "hours": 1.98,
+      "week_start": "2024-01-01"
+    },
+    {
+      "hours": 4.64,
+      "week_start": "2024-01-08"
+    },
+    {
+      "hours": 2.78,
+      "week_start": "2024-01-22"
+    },
+    {
+      "hours": 4.77,
+      "week_start": "2024-01-29"
+    },
+    {
+      "hours": 4.99,
+      "week_start": "2024-02-05"
+    },
+    {
+      "hours": 10.4,
+      "week_start": "2024-02-12"
+    },
+    {
+      "hours": 6.47,
+      "week_start": "2024-02-19"
+    },
+    {
+      "hours": 4.73,
+      "week_start": "2024-02-26"
+    },
+    {
+      "hours": 6.13,
+      "week_start": "2024-03-11"
+    },
+    {
+      "hours": 7.78,
+      "week_start": "2024-03-25"
+    },
+    {
+      "hours": 5.72,
+      "week_start": "2024-04-01"
+    },
+    {
+      "hours": 5.62,
+      "week_start": "2024-04-08"
+    },
+    {
+      "hours": 6.7,
+      "week_start": "2024-04-15"
+    },
+    {
+      "hours": 9.27,
+      "week_start": "2024-04-22"
+    },
+    {
+      "hours": 11.71,
+      "week_start": "2024-04-29"
+    },
+    {
+      "hours": 12.84,
+      "week_start": "2024-05-06"
+    },
+    {
+      "hours": 12.9,
+      "week_start": "2024-05-13"
+    },
+    {
+      "hours": 18.71,
+      "week_start": "2024-05-20"
+    },
+    {
+      "hours": 13.96,
+      "week_start": "2024-05-27"
+    },
+    {
+      "hours": 15.09,
+      "week_start": "2024-06-03"
+    },
+    {
+      "hours": 23.18,
+      "week_start": "2024-06-10"
+    },
+    {
+      "hours": 31.32,
+      "week_start": "2024-06-17"
+    },
+    {
+      "hours": 24.18,
+      "week_start": "2024-06-24"
+    },
+    {
+      "hours": 27.14,
+      "week_start": "2024-07-01"
+    },
+    {
+      "hours": 15.19,
+      "week_start": "2024-07-08"
+    },
+    {
+      "hours": 16.58,
+      "week_start": "2024-07-15"
+    },
+    {
+      "hours": 16.08,
+      "week_start": "2024-07-22"
+    },
+    {
+      "hours": 3.51,
+      "week_start": "2024-07-29"
+    },
+    {
+      "hours": 14.76,
+      "week_start": "2024-08-05"
+    },
+    {
+      "hours": 6.68,
+      "week_start": "2024-08-12"
+    },
+    {
+      "hours": 15.89,
+      "week_start": "2024-08-19"
+    },
+    {
+      "hours": 14.93,
+      "week_start": "2024-08-26"
+    },
+    {
+      "hours": 19.68,
+      "week_start": "2024-09-02"
+    },
+    {
+      "hours": 18.2,
+      "week_start": "2024-09-09"
+    },
+    {
+      "hours": 21.11,
+      "week_start": "2024-09-16"
+    },
+    {
+      "hours": 10.95,
+      "week_start": "2024-09-23"
+    },
+    {
+      "hours": 10.84,
+      "week_start": "2024-09-30"
+    },
+    {
+      "hours": 15.31,
+      "week_start": "2024-10-07"
+    },
+    {
+      "hours": 1.39,
+      "week_start": "2024-10-14"
+    },
+    {
+      "hours": 13.82,
+      "week_start": "2024-10-21"
+    },
+    {
+      "hours": 10.11,
+      "week_start": "2024-10-28"
+    },
+    {
+      "hours": 12.22,
+      "week_start": "2024-11-04"
+    },
+    {
+      "hours": 11.02,
+      "week_start": "2024-11-11"
+    },
+    {
+      "hours": 7.66,
+      "week_start": "2024-11-18"
+    },
+    {
+      "hours": 5.54,
+      "week_start": "2024-11-25"
+    },
+    {
+      "hours": 7.32,
+      "week_start": "2024-12-02"
+    },
+    {
+      "hours": 6.06,
+      "week_start": "2024-12-09"
+    },
+    {
+      "hours": 7.01,
+      "week_start": "2024-12-16"
+    },
+    {
+      "hours": 2.99,
+      "week_start": "2025-01-06"
+    },
+    {
+      "hours": 3.06,
+      "week_start": "2025-01-13"
+    },
+    {
+      "hours": 2.22,
+      "week_start": "2025-02-03"
+    },
+    {
+      "hours": 9.06,
+      "week_start": "2025-02-17"
+    },
+    {
+      "hours": 28.39,
+      "week_start": "2025-02-24"
+    },
+    {
+      "hours": 8.22,
+      "week_start": "2025-03-03"
+    },
+    {
+      "hours": 6.32,
+      "week_start": "2025-03-10"
+    },
+    {
+      "hours": 9.56,
+      "week_start": "2025-03-17"
+    },
+    {
+      "hours": 8.71,
+      "week_start": "2025-03-24"
+    },
+    {
+      "hours": 13.07,
+      "week_start": "2025-03-31"
+    },
+    {
+      "hours": 8.94,
+      "week_start": "2025-04-07"
+    },
+    {
+      "hours": 16.86,
+      "week_start": "2025-04-14"
+    },
+    {
+      "hours": 20.78,
+      "week_start": "2025-04-21"
+    },
+    {
+      "hours": 20.04,
+      "week_start": "2025-04-28"
+    },
+    {
+      "hours": 20.59,
+      "week_start": "2025-05-05"
+    },
+    {
+      "hours": 21.03,
+      "week_start": "2025-05-12"
+    },
+    {
+      "hours": 20.08,
+      "week_start": "2025-05-19"
+    },
+    {
+      "hours": 20.15,
+      "week_start": "2025-05-26"
+    },
+    {
+      "hours": 9.04,
+      "week_start": "2025-06-02"
+    },
+    {
+      "hours": 50.4,
+      "week_start": "2025-06-09"
+    },
+    {
+      "hours": 75.17,
+      "week_start": "2025-06-16"
+    },
+    {
+      "hours": 19.24,
+      "week_start": "2025-06-23"
+    },
+    {
+      "hours": 18.44,
+      "week_start": "2025-06-30"
+    },
+    {
+      "hours": 12.45,
+      "week_start": "2025-07-07"
+    },
+    {
+      "hours": 18.1,
+      "week_start": "2025-07-14"
+    },
+    {
+      "hours": 11.53,
+      "week_start": "2025-07-21"
+    },
+    {
+      "hours": 13.32,
+      "week_start": "2025-07-28"
+    },
+    {
+      "hours": 12,
+      "week_start": "2025-08-04"
+    },
+    {
+      "hours": 20.76,
+      "week_start": "2025-08-11"
+    },
+    {
+      "hours": 10.6,
+      "week_start": "2025-08-18"
+    },
+    {
+      "hours": 14.41,
+      "week_start": "2025-08-25"
+    },
+    {
+      "hours": 6.64,
+      "week_start": "2025-09-01"
+    },
+    {
+      "hours": 10.82,
+      "week_start": "2025-09-08"
+    },
+    {
+      "hours": 11.52,
+      "week_start": "2025-09-15"
+    },
+    {
+      "hours": 12.13,
+      "week_start": "2025-09-22"
+    },
+    {
+      "hours": 10.95,
+      "week_start": "2025-09-29"
+    },
+    {
+      "hours": 6.76,
+      "week_start": "2025-10-06"
+    },
+    {
+      "hours": 7.87,
+      "week_start": "2025-10-13"
+    },
+    {
+      "hours": 7.72,
+      "week_start": "2025-10-20"
+    },
+    {
+      "hours": 2.88,
+      "week_start": "2025-10-27"
+    },
+    {
+      "hours": 4.45,
+      "week_start": "2025-11-03"
+    },
+    {
+      "hours": 1.96,
+      "week_start": "2025-11-10"
+    },
+    {
+      "hours": 1.72,
+      "week_start": "2025-11-17"
+    },
+    {
+      "hours": 5.24,
+      "week_start": "2026-01-05"
+    },
+    {
+      "hours": 2.04,
+      "week_start": "2026-02-09"
+    },
+    {
+      "hours": 21.95,
+      "week_start": "2026-02-16"
+    },
+    {
+      "hours": 3.67,
+      "week_start": "2026-02-23"
+    },
+    {
+      "hours": 4.73,
+      "week_start": "2026-03-02"
+    },
+    {
+      "hours": 7.63,
+      "week_start": "2026-03-09"
+    },
+    {
+      "hours": 8.66,
+      "week_start": "2026-03-16"
+    },
+    {
+      "hours": 6.75,
+      "week_start": "2026-03-23"
+    },
+    {
+      "hours": 11.76,
+      "week_start": "2026-03-30"
+    }
+  ],
+  "weekly_ride_kilometers": [
+    {
+      "kilometers": 102.03,
+      "week_start": "2015-08-31"
+    },
+    {
+      "kilometers": 219.91,
+      "week_start": "2015-09-07"
+    },
+    {
+      "kilometers": 107.41,
+      "week_start": "2015-10-05"
+    },
+    {
+      "kilometers": 123.54,
+      "week_start": "2016-04-11"
+    },
+    {
+      "kilometers": 72.99,
+      "week_start": "2016-04-18"
+    },
+    {
+      "kilometers": 48.28,
+      "week_start": "2016-04-25"
+    },
+    {
+      "kilometers": 166,
+      "week_start": "2016-05-16"
+    },
+    {
+      "kilometers": 44.78,
+      "week_start": "2016-05-23"
+    },
+    {
+      "kilometers": 164.94,
+      "week_start": "2016-06-20"
+    },
+    {
+      "kilometers": 67.54,
+      "week_start": "2016-06-27"
+    },
+    {
+      "kilometers": 253.95,
+      "week_start": "2016-07-04"
+    },
+    {
+      "kilometers": 32.31,
+      "week_start": "2016-07-11"
+    },
+    {
+      "kilometers": 56.61,
+      "week_start": "2016-07-18"
+    },
+    {
+      "kilometers": 28.65,
+      "week_start": "2016-07-25"
+    },
+    {
+      "kilometers": 82.71,
+      "week_start": "2016-08-01"
+    },
+    {
+      "kilometers": 114.62,
+      "week_start": "2016-08-08"
+    },
+    {
+      "kilometers": 102.36,
+      "week_start": "2016-08-15"
+    },
+    {
+      "kilometers": 78.85,
+      "week_start": "2016-08-22"
+    },
+    {
+      "kilometers": 177.43,
+      "week_start": "2016-08-29"
+    },
+    {
+      "kilometers": 273.07,
+      "week_start": "2016-09-05"
+    },
+    {
+      "kilometers": 102.11,
+      "week_start": "2016-09-12"
+    },
+    {
+      "kilometers": 279.37,
+      "week_start": "2016-09-19"
+    },
+    {
+      "kilometers": 48.5,
+      "week_start": "2016-09-26"
+    },
+    {
+      "kilometers": 118.21,
+      "week_start": "2016-10-03"
+    },
+    {
+      "kilometers": 169.18,
+      "week_start": "2016-10-10"
+    },
+    {
+      "kilometers": 143.71,
+      "week_start": "2016-10-17"
+    },
+    {
+      "kilometers": 167.99,
+      "week_start": "2016-10-24"
+    },
+    {
+      "kilometers": 247.24,
+      "week_start": "2016-10-31"
+    },
+    {
+      "kilometers": 69.5,
+      "week_start": "2016-11-07"
+    },
+    {
+      "kilometers": 164.5,
+      "week_start": "2016-11-14"
+    },
+    {
+      "kilometers": 144.35,
+      "week_start": "2016-11-21"
+    },
+    {
+      "kilometers": 107.59,
+      "week_start": "2016-11-28"
+    },
+    {
+      "kilometers": 100.95,
+      "week_start": "2016-12-05"
+    },
+    {
+      "kilometers": 30.32,
+      "week_start": "2016-12-12"
+    },
+    {
+      "kilometers": 23.62,
+      "week_start": "2016-12-19"
+    },
+    {
+      "kilometers": 97.18,
+      "week_start": "2017-01-09"
+    },
+    {
+      "kilometers": 69.03,
+      "week_start": "2017-01-16"
+    },
+    {
+      "kilometers": 109.62,
+      "week_start": "2017-01-23"
+    },
+    {
+      "kilometers": 47.17,
+      "week_start": "2017-01-30"
+    },
+    {
+      "kilometers": 74.13,
+      "week_start": "2017-02-06"
+    },
+    {
+      "kilometers": 112.46,
+      "week_start": "2017-02-13"
+    },
+    {
+      "kilometers": 126.12,
+      "week_start": "2017-02-20"
+    },
+    {
+      "kilometers": 33.21,
+      "week_start": "2017-02-27"
+    },
+    {
+      "kilometers": 73.31,
+      "week_start": "2017-03-06"
+    },
+    {
+      "kilometers": 110.37,
+      "week_start": "2017-03-13"
+    },
+    {
+      "kilometers": 73.04,
+      "week_start": "2017-03-20"
+    },
+    {
+      "kilometers": 157.9,
+      "week_start": "2017-03-27"
+    },
+    {
+      "kilometers": 202.56,
+      "week_start": "2017-04-03"
+    },
+    {
+      "kilometers": 266.8,
+      "week_start": "2017-04-10"
+    },
+    {
+      "kilometers": 130.3,
+      "week_start": "2017-04-17"
+    },
+    {
+      "kilometers": 136.03,
+      "week_start": "2017-04-24"
+    },
+    {
+      "kilometers": 243.15,
+      "week_start": "2017-05-01"
+    },
+    {
+      "kilometers": 218.02,
+      "week_start": "2017-05-08"
+    },
+    {
+      "kilometers": 113.89,
+      "week_start": "2017-06-05"
+    },
+    {
+      "kilometers": 166.86,
+      "week_start": "2017-06-12"
+    },
+    {
+      "kilometers": 212.56,
+      "week_start": "2017-06-19"
+    },
+    {
+      "kilometers": 195.03,
+      "week_start": "2017-06-26"
+    },
+    {
+      "kilometers": 267.89,
+      "week_start": "2017-07-03"
+    },
+    {
+      "kilometers": 256.07,
+      "week_start": "2017-07-10"
+    },
+    {
+      "kilometers": 345.18,
+      "week_start": "2017-07-17"
+    },
+    {
+      "kilometers": 144.96,
+      "week_start": "2017-07-24"
+    },
+    {
+      "kilometers": 95.31,
+      "week_start": "2017-07-31"
+    },
+    {
+      "kilometers": 146.56,
+      "week_start": "2017-08-07"
+    },
+    {
+      "kilometers": 168.62,
+      "week_start": "2017-08-14"
+    },
+    {
+      "kilometers": 113.4,
+      "week_start": "2017-08-21"
+    },
+    {
+      "kilometers": 191.96,
+      "week_start": "2017-08-28"
+    },
+    {
+      "kilometers": 318.9,
+      "week_start": "2017-09-04"
+    },
+    {
+      "kilometers": 304.19,
+      "week_start": "2017-09-11"
+    },
+    {
+      "kilometers": 154.96,
+      "week_start": "2017-09-18"
+    },
+    {
+      "kilometers": 235.09,
+      "week_start": "2017-09-25"
+    },
+    {
+      "kilometers": 161.19,
+      "week_start": "2017-10-02"
+    },
+    {
+      "kilometers": 353.33,
+      "week_start": "2017-10-09"
+    },
+    {
+      "kilometers": 176.84,
+      "week_start": "2017-10-16"
+    },
+    {
+      "kilometers": 97.75,
+      "week_start": "2017-10-23"
+    },
+    {
+      "kilometers": 233.16,
+      "week_start": "2017-10-30"
+    },
+    {
+      "kilometers": 39.9,
+      "week_start": "2017-11-06"
+    },
+    {
+      "kilometers": 103.64,
+      "week_start": "2017-11-13"
+    },
+    {
+      "kilometers": 201.18,
+      "week_start": "2017-11-20"
+    },
+    {
+      "kilometers": 31.94,
+      "week_start": "2017-11-27"
+    },
+    {
+      "kilometers": 72.6,
+      "week_start": "2017-12-04"
+    },
+    {
+      "kilometers": 22.07,
+      "week_start": "2018-01-29"
+    },
+    {
+      "kilometers": 29.63,
+      "week_start": "2018-02-12"
+    },
+    {
+      "kilometers": 44.19,
+      "week_start": "2018-02-19"
+    },
+    {
+      "kilometers": 53.82,
+      "week_start": "2018-02-26"
+    },
+    {
+      "kilometers": 106.73,
+      "week_start": "2018-03-05"
+    },
+    {
+      "kilometers": 207.92,
+      "week_start": "2018-03-12"
+    },
+    {
+      "kilometers": 176.21,
+      "week_start": "2018-03-19"
+    },
+    {
+      "kilometers": 101.84,
+      "week_start": "2018-03-26"
+    },
+    {
+      "kilometers": 168.58,
+      "week_start": "2018-04-02"
+    },
+    {
+      "kilometers": 174.41,
+      "week_start": "2018-04-09"
+    },
+    {
+      "kilometers": 200.65,
+      "week_start": "2018-04-16"
+    },
+    {
+      "kilometers": 136.08,
+      "week_start": "2018-04-23"
+    },
+    {
+      "kilometers": 479.37,
+      "week_start": "2018-04-30"
+    },
+    {
+      "kilometers": 77.26,
+      "week_start": "2018-05-07"
+    },
+    {
+      "kilometers": 300.09,
+      "week_start": "2018-05-14"
+    },
+    {
+      "kilometers": 45.95,
+      "week_start": "2018-05-21"
+    },
+    {
+      "kilometers": 99.66,
+      "week_start": "2018-05-28"
+    },
+    {
+      "kilometers": 183.33,
+      "week_start": "2018-06-04"
+    },
+    {
+      "kilometers": 113.34,
+      "week_start": "2018-06-11"
+    },
+    {
+      "kilometers": 288.05,
+      "week_start": "2018-06-18"
+    },
+    {
+      "kilometers": 177.56,
+      "week_start": "2018-06-25"
+    },
+    {
+      "kilometers": 267.63,
+      "week_start": "2018-07-02"
+    },
+    {
+      "kilometers": 325.99,
+      "week_start": "2018-07-09"
+    },
+    {
+      "kilometers": 165.21,
+      "week_start": "2018-07-16"
+    },
+    {
+      "kilometers": 50.82,
+      "week_start": "2018-07-23"
+    },
+    {
+      "kilometers": 108.55,
+      "week_start": "2018-07-30"
+    },
+    {
+      "kilometers": 119.61,
+      "week_start": "2018-08-06"
+    },
+    {
+      "kilometers": 130.11,
+      "week_start": "2018-08-13"
+    },
+    {
+      "kilometers": 84.78,
+      "week_start": "2018-08-20"
+    },
+    {
+      "kilometers": 68.18,
+      "week_start": "2018-08-27"
+    },
+    {
+      "kilometers": 137.82,
+      "week_start": "2018-09-03"
+    },
+    {
+      "kilometers": 208.68,
+      "week_start": "2018-09-17"
+    },
+    {
+      "kilometers": 180.77,
+      "week_start": "2018-10-01"
+    },
+    {
+      "kilometers": 51.83,
+      "week_start": "2018-10-08"
+    },
+    {
+      "kilometers": 185.71,
+      "week_start": "2018-10-15"
+    },
+    {
+      "kilometers": 133.47,
+      "week_start": "2018-10-29"
+    },
+    {
+      "kilometers": 172.65,
+      "week_start": "2018-11-05"
+    },
+    {
+      "kilometers": 49.39,
+      "week_start": "2018-11-12"
+    },
+    {
+      "kilometers": 38.02,
+      "week_start": "2018-11-19"
+    },
+    {
+      "kilometers": 41.45,
+      "week_start": "2018-11-26"
+    },
+    {
+      "kilometers": 92.83,
+      "week_start": "2018-12-03"
+    },
+    {
+      "kilometers": 40.01,
+      "week_start": "2018-12-17"
+    },
+    {
+      "kilometers": 90.86,
+      "week_start": "2018-12-24"
+    },
+    {
+      "kilometers": 4.65,
+      "week_start": "2019-01-07"
+    },
+    {
+      "kilometers": 96.55,
+      "week_start": "2019-01-14"
+    },
+    {
+      "kilometers": 74.82,
+      "week_start": "2019-01-21"
+    },
+    {
+      "kilometers": 103.66,
+      "week_start": "2019-02-11"
+    },
+    {
+      "kilometers": 29.63,
+      "week_start": "2019-02-18"
+    },
+    {
+      "kilometers": 36.04,
+      "week_start": "2019-02-25"
+    },
+    {
+      "kilometers": 94.95,
+      "week_start": "2019-03-04"
+    },
+    {
+      "kilometers": 104.93,
+      "week_start": "2019-03-11"
+    },
+    {
+      "kilometers": 127.53,
+      "week_start": "2019-03-18"
+    },
+    {
+      "kilometers": 122.57,
+      "week_start": "2019-03-25"
+    },
+    {
+      "kilometers": 275.12,
+      "week_start": "2019-04-01"
+    },
+    {
+      "kilometers": 243.41,
+      "week_start": "2019-04-08"
+    },
+    {
+      "kilometers": 173.86,
+      "week_start": "2019-04-15"
+    },
+    {
+      "kilometers": 204.64,
+      "week_start": "2019-04-22"
+    },
+    {
+      "kilometers": 253.16,
+      "week_start": "2019-04-29"
+    },
+    {
+      "kilometers": 264.84,
+      "week_start": "2019-05-06"
+    },
+    {
+      "kilometers": 309.03,
+      "week_start": "2019-05-13"
+    },
+    {
+      "kilometers": 334.51,
+      "week_start": "2019-05-20"
+    },
+    {
+      "kilometers": 140.72,
+      "week_start": "2019-05-27"
+    },
+    {
+      "kilometers": 346.81,
+      "week_start": "2019-06-03"
+    },
+    {
+      "kilometers": 124.53,
+      "week_start": "2019-06-10"
+    },
+    {
+      "kilometers": 189.26,
+      "week_start": "2019-06-17"
+    },
+    {
+      "kilometers": 213.49,
+      "week_start": "2019-06-24"
+    },
+    {
+      "kilometers": 356.71,
+      "week_start": "2019-07-01"
+    },
+    {
+      "kilometers": 330.53,
+      "week_start": "2019-07-08"
+    },
+    {
+      "kilometers": 128.29,
+      "week_start": "2019-07-15"
+    },
+    {
+      "kilometers": 359.77,
+      "week_start": "2019-07-22"
+    },
+    {
+      "kilometers": 357.11,
+      "week_start": "2019-07-29"
+    },
+    {
+      "kilometers": 325.63,
+      "week_start": "2019-08-05"
+    },
+    {
+      "kilometers": 203.32,
+      "week_start": "2019-08-12"
+    },
+    {
+      "kilometers": 62.15,
+      "week_start": "2019-08-19"
+    },
+    {
+      "kilometers": 295.45,
+      "week_start": "2019-09-02"
+    },
+    {
+      "kilometers": 341.69,
+      "week_start": "2019-09-09"
+    },
+    {
+      "kilometers": 119.25,
+      "week_start": "2019-09-16"
+    },
+    {
+      "kilometers": 313.52,
+      "week_start": "2019-09-23"
+    },
+    {
+      "kilometers": 172.92,
+      "week_start": "2019-09-30"
+    },
+    {
+      "kilometers": 236.09,
+      "week_start": "2019-10-07"
+    },
+    {
+      "kilometers": 67.46,
+      "week_start": "2019-10-14"
+    },
+    {
+      "kilometers": 199.01,
+      "week_start": "2019-10-21"
+    },
+    {
+      "kilometers": 151.26,
+      "week_start": "2019-10-28"
+    },
+    {
+      "kilometers": 223.26,
+      "week_start": "2019-11-04"
+    },
+    {
+      "kilometers": 166.37,
+      "week_start": "2019-11-11"
+    },
+    {
+      "kilometers": 40.02,
+      "week_start": "2019-11-18"
+    },
+    {
+      "kilometers": 33.38,
+      "week_start": "2019-11-25"
+    },
+    {
+      "kilometers": 189.59,
+      "week_start": "2019-12-23"
+    },
+    {
+      "kilometers": 168.09,
+      "week_start": "2020-01-06"
+    },
+    {
+      "kilometers": 103.14,
+      "week_start": "2020-01-20"
+    },
+    {
+      "kilometers": 2.09,
+      "week_start": "2020-02-03"
+    },
+    {
+      "kilometers": 110.73,
+      "week_start": "2020-02-24"
+    },
+    {
+      "kilometers": 121.88,
+      "week_start": "2020-03-02"
+    },
+    {
+      "kilometers": 98.77,
+      "week_start": "2020-03-09"
+    },
+    {
+      "kilometers": 24.09,
+      "week_start": "2020-03-16"
+    },
+    {
+      "kilometers": 88.42,
+      "week_start": "2020-03-23"
+    },
+    {
+      "kilometers": 108.12,
+      "week_start": "2020-03-30"
+    },
+    {
+      "kilometers": 135.46,
+      "week_start": "2020-04-06"
+    },
+    {
+      "kilometers": 215.35,
+      "week_start": "2020-04-13"
+    },
+    {
+      "kilometers": 68.49,
+      "week_start": "2020-04-20"
+    },
+    {
+      "kilometers": 236.39,
+      "week_start": "2020-04-27"
+    },
+    {
+      "kilometers": 327.03,
+      "week_start": "2020-05-04"
+    },
+    {
+      "kilometers": 294.41,
+      "week_start": "2020-05-11"
+    },
+    {
+      "kilometers": 271.73,
+      "week_start": "2020-05-18"
+    },
+    {
+      "kilometers": 386.88,
+      "week_start": "2020-05-25"
+    },
+    {
+      "kilometers": 236.68,
+      "week_start": "2020-06-01"
+    },
+    {
+      "kilometers": 239.71,
+      "week_start": "2020-06-08"
+    },
+    {
+      "kilometers": 117.81,
+      "week_start": "2020-06-15"
+    },
+    {
+      "kilometers": 463.94,
+      "week_start": "2020-06-22"
+    },
+    {
+      "kilometers": 363.46,
+      "week_start": "2020-06-29"
+    },
+    {
+      "kilometers": 211.47,
+      "week_start": "2020-07-06"
+    },
+    {
+      "kilometers": 262.58,
+      "week_start": "2020-07-13"
+    },
+    {
+      "kilometers": 275.64,
+      "week_start": "2020-07-20"
+    },
+    {
+      "kilometers": 227.39,
+      "week_start": "2020-07-27"
+    },
+    {
+      "kilometers": 252.77,
+      "week_start": "2020-08-03"
+    },
+    {
+      "kilometers": 240.58,
+      "week_start": "2020-08-10"
+    },
+    {
+      "kilometers": 242.68,
+      "week_start": "2020-08-17"
+    },
+    {
+      "kilometers": 249.27,
+      "week_start": "2020-08-24"
+    },
+    {
+      "kilometers": 249.04,
+      "week_start": "2020-08-31"
+    },
+    {
+      "kilometers": 122.17,
+      "week_start": "2020-09-07"
+    },
+    {
+      "kilometers": 605.02,
+      "week_start": "2020-09-14"
+    },
+    {
+      "kilometers": 40.21,
+      "week_start": "2020-12-28"
+    },
+    {
+      "kilometers": 76.71,
+      "week_start": "2021-01-04"
+    },
+    {
+      "kilometers": 59.98,
+      "week_start": "2021-01-11"
+    },
+    {
+      "kilometers": 141.91,
+      "week_start": "2021-01-18"
+    },
+    {
+      "kilometers": 55.73,
+      "week_start": "2021-01-25"
+    },
+    {
+      "kilometers": 52.22,
+      "week_start": "2021-02-08"
+    },
+    {
+      "kilometers": 20.52,
+      "week_start": "2021-02-15"
+    },
+    {
+      "kilometers": 44.48,
+      "week_start": "2021-02-22"
+    },
+    {
+      "kilometers": 36.51,
+      "week_start": "2021-03-01"
+    },
+    {
+      "kilometers": 127.24,
+      "week_start": "2021-03-08"
+    },
+    {
+      "kilometers": 211.27,
+      "week_start": "2021-03-15"
+    },
+    {
+      "kilometers": 141.94,
+      "week_start": "2021-03-22"
+    },
+    {
+      "kilometers": 208.06,
+      "week_start": "2021-03-29"
+    },
+    {
+      "kilometers": 185.74,
+      "week_start": "2021-04-05"
+    },
+    {
+      "kilometers": 149.36,
+      "week_start": "2021-04-12"
+    },
+    {
+      "kilometers": 220.07,
+      "week_start": "2021-04-19"
+    },
+    {
+      "kilometers": 174.86,
+      "week_start": "2021-04-26"
+    },
+    {
+      "kilometers": 147.88,
+      "week_start": "2021-05-03"
+    },
+    {
+      "kilometers": 280.74,
+      "week_start": "2021-05-10"
+    },
+    {
+      "kilometers": 333.49,
+      "week_start": "2021-05-17"
+    },
+    {
+      "kilometers": 10.9,
+      "week_start": "2021-05-24"
+    },
+    {
+      "kilometers": 357.32,
+      "week_start": "2021-05-31"
+    },
+    {
+      "kilometers": 166.95,
+      "week_start": "2021-06-07"
+    },
+    {
+      "kilometers": 305.88,
+      "week_start": "2021-06-14"
+    },
+    {
+      "kilometers": 450.71,
+      "week_start": "2021-06-21"
+    },
+    {
+      "kilometers": 78.27,
+      "week_start": "2021-06-28"
+    },
+    {
+      "kilometers": 269.31,
+      "week_start": "2021-07-05"
+    },
+    {
+      "kilometers": 241.69,
+      "week_start": "2021-07-12"
+    },
+    {
+      "kilometers": 315.89,
+      "week_start": "2021-07-19"
+    },
+    {
+      "kilometers": 232.56,
+      "week_start": "2021-07-26"
+    },
+    {
+      "kilometers": 233.2,
+      "week_start": "2021-08-02"
+    },
+    {
+      "kilometers": 274.11,
+      "week_start": "2021-08-09"
+    },
+    {
+      "kilometers": 141.11,
+      "week_start": "2021-08-16"
+    },
+    {
+      "kilometers": 125.16,
+      "week_start": "2021-08-23"
+    },
+    {
+      "kilometers": 385.62,
+      "week_start": "2021-08-30"
+    },
+    {
+      "kilometers": 320.69,
+      "week_start": "2021-09-06"
+    },
+    {
+      "kilometers": 372.55,
+      "week_start": "2021-09-13"
+    },
+    {
+      "kilometers": 389.06,
+      "week_start": "2021-09-20"
+    },
+    {
+      "kilometers": 265.01,
+      "week_start": "2021-09-27"
+    },
+    {
+      "kilometers": 256.4,
+      "week_start": "2021-10-04"
+    },
+    {
+      "kilometers": 272.75,
+      "week_start": "2021-10-11"
+    },
+    {
+      "kilometers": 253.67,
+      "week_start": "2021-10-18"
+    },
+    {
+      "kilometers": 5.96,
+      "week_start": "2021-10-25"
+    },
+    {
+      "kilometers": 218.58,
+      "week_start": "2021-11-01"
+    },
+    {
+      "kilometers": 224.97,
+      "week_start": "2021-11-08"
+    },
+    {
+      "kilometers": 136,
+      "week_start": "2021-11-15"
+    },
+    {
+      "kilometers": 30.25,
+      "week_start": "2021-11-22"
+    },
+    {
+      "kilometers": 213.01,
+      "week_start": "2021-11-29"
+    },
+    {
+      "kilometers": 149.92,
+      "week_start": "2021-12-06"
+    },
+    {
+      "kilometers": 263.39,
+      "week_start": "2021-12-13"
+    },
+    {
+      "kilometers": 239.33,
+      "week_start": "2021-12-20"
+    },
+    {
+      "kilometers": 149.82,
+      "week_start": "2021-12-27"
+    },
+    {
+      "kilometers": 124.06,
+      "week_start": "2022-01-03"
+    },
+    {
+      "kilometers": 181.53,
+      "week_start": "2022-01-10"
+    },
+    {
+      "kilometers": 230.25,
+      "week_start": "2022-01-17"
+    },
+    {
+      "kilometers": 213.68,
+      "week_start": "2022-01-24"
+    },
+    {
+      "kilometers": 192.66,
+      "week_start": "2022-01-31"
+    },
+    {
+      "kilometers": 286.6,
+      "week_start": "2022-02-07"
+    },
+    {
+      "kilometers": 66.5,
+      "week_start": "2022-02-14"
+    },
+    {
+      "kilometers": 218.81,
+      "week_start": "2022-02-21"
+    },
+    {
+      "kilometers": 213.9,
+      "week_start": "2022-02-28"
+    },
+    {
+      "kilometers": 200.58,
+      "week_start": "2022-03-07"
+    },
+    {
+      "kilometers": 392.7,
+      "week_start": "2022-03-14"
+    },
+    {
+      "kilometers": 230.11,
+      "week_start": "2022-03-21"
+    },
+    {
+      "kilometers": 141.25,
+      "week_start": "2022-03-28"
+    },
+    {
+      "kilometers": 115.57,
+      "week_start": "2022-04-04"
+    },
+    {
+      "kilometers": 617.6,
+      "week_start": "2022-04-11"
+    },
+    {
+      "kilometers": 301.96,
+      "week_start": "2022-04-18"
+    },
+    {
+      "kilometers": 264.43,
+      "week_start": "2022-04-25"
+    },
+    {
+      "kilometers": 86.6,
+      "week_start": "2022-05-02"
+    },
+    {
+      "kilometers": 315.03,
+      "week_start": "2022-05-09"
+    },
+    {
+      "kilometers": 168.1,
+      "week_start": "2022-05-16"
+    },
+    {
+      "kilometers": 252.96,
+      "week_start": "2022-05-23"
+    },
+    {
+      "kilometers": 423.43,
+      "week_start": "2022-05-30"
+    },
+    {
+      "kilometers": 259.24,
+      "week_start": "2022-06-06"
+    },
+    {
+      "kilometers": 257.54,
+      "week_start": "2022-06-13"
+    },
+    {
+      "kilometers": 295.84,
+      "week_start": "2022-06-27"
+    },
+    {
+      "kilometers": 424.8,
+      "week_start": "2022-07-04"
+    },
+    {
+      "kilometers": 329.1,
+      "week_start": "2022-07-11"
+    },
+    {
+      "kilometers": 253.03,
+      "week_start": "2022-07-18"
+    },
+    {
+      "kilometers": 311.59,
+      "week_start": "2022-07-25"
+    },
+    {
+      "kilometers": 240.43,
+      "week_start": "2022-08-01"
+    },
+    {
+      "kilometers": 345.78,
+      "week_start": "2022-08-08"
+    },
+    {
+      "kilometers": 279.78,
+      "week_start": "2022-08-15"
+    },
+    {
+      "kilometers": 354.86,
+      "week_start": "2022-08-22"
+    },
+    {
+      "kilometers": 351.3,
+      "week_start": "2022-08-29"
+    },
+    {
+      "kilometers": 226.05,
+      "week_start": "2022-09-05"
+    },
+    {
+      "kilometers": 314.79,
+      "week_start": "2022-09-12"
+    },
+    {
+      "kilometers": 194.13,
+      "week_start": "2022-09-19"
+    },
+    {
+      "kilometers": 38.02,
+      "week_start": "2022-09-26"
+    },
+    {
+      "kilometers": 200.32,
+      "week_start": "2022-10-03"
+    },
+    {
+      "kilometers": 193.26,
+      "week_start": "2022-10-10"
+    },
+    {
+      "kilometers": 509.25,
+      "week_start": "2022-10-17"
+    },
+    {
+      "kilometers": 266.74,
+      "week_start": "2022-10-24"
+    },
+    {
+      "kilometers": 347.88,
+      "week_start": "2022-10-31"
+    },
+    {
+      "kilometers": 443.07,
+      "week_start": "2022-11-07"
+    },
+    {
+      "kilometers": 113.89,
+      "week_start": "2022-11-14"
+    },
+    {
+      "kilometers": 328.84,
+      "week_start": "2022-11-21"
+    },
+    {
+      "kilometers": 134.48,
+      "week_start": "2022-11-28"
+    },
+    {
+      "kilometers": 54.31,
+      "week_start": "2022-12-05"
+    },
+    {
+      "kilometers": 140.13,
+      "week_start": "2022-12-12"
+    },
+    {
+      "kilometers": 53.4,
+      "week_start": "2022-12-19"
+    },
+    {
+      "kilometers": 369.98,
+      "week_start": "2022-12-26"
+    },
+    {
+      "kilometers": 105.28,
+      "week_start": "2023-01-16"
+    },
+    {
+      "kilometers": 90.55,
+      "week_start": "2023-01-23"
+    },
+    {
+      "kilometers": 106.6,
+      "week_start": "2023-02-06"
+    },
+    {
+      "kilometers": 363.63,
+      "week_start": "2023-02-13"
+    },
+    {
+      "kilometers": 246.84,
+      "week_start": "2023-02-20"
+    },
+    {
+      "kilometers": 127.87,
+      "week_start": "2023-02-27"
+    },
+    {
+      "kilometers": 83.1,
+      "week_start": "2023-03-06"
+    },
+    {
+      "kilometers": 120.58,
+      "week_start": "2023-03-13"
+    },
+    {
+      "kilometers": 117.55,
+      "week_start": "2023-03-20"
+    },
+    {
+      "kilometers": 44.57,
+      "week_start": "2023-03-27"
+    },
+    {
+      "kilometers": 154.1,
+      "week_start": "2023-04-03"
+    },
+    {
+      "kilometers": 240.06,
+      "week_start": "2023-04-10"
+    },
+    {
+      "kilometers": 220.43,
+      "week_start": "2023-04-17"
+    },
+    {
+      "kilometers": 188.02,
+      "week_start": "2023-04-24"
+    },
+    {
+      "kilometers": 142.4,
+      "week_start": "2023-05-01"
+    },
+    {
+      "kilometers": 345.3,
+      "week_start": "2023-05-08"
+    },
+    {
+      "kilometers": 215.61,
+      "week_start": "2023-05-15"
+    },
+    {
+      "kilometers": 315.43,
+      "week_start": "2023-05-22"
+    },
+    {
+      "kilometers": 582.4,
+      "week_start": "2023-05-29"
+    },
+    {
+      "kilometers": 330.07,
+      "week_start": "2023-06-05"
+    },
+    {
+      "kilometers": 434.83,
+      "week_start": "2023-06-12"
+    },
+    {
+      "kilometers": 303.26,
+      "week_start": "2023-06-19"
+    },
+    {
+      "kilometers": 59.25,
+      "week_start": "2023-06-26"
+    },
+    {
+      "kilometers": 297.11,
+      "week_start": "2023-07-03"
+    },
+    {
+      "kilometers": 143.54,
+      "week_start": "2023-07-10"
+    },
+    {
+      "kilometers": 305.68,
+      "week_start": "2023-07-17"
+    },
+    {
+      "kilometers": 211.86,
+      "week_start": "2023-07-24"
+    },
+    {
+      "kilometers": 438.63,
+      "week_start": "2023-07-31"
+    },
+    {
+      "kilometers": 235.22,
+      "week_start": "2023-08-07"
+    },
+    {
+      "kilometers": 309.96,
+      "week_start": "2023-08-14"
+    },
+    {
+      "kilometers": 291.63,
+      "week_start": "2023-08-21"
+    },
+    {
+      "kilometers": 378.8,
+      "week_start": "2023-08-28"
+    },
+    {
+      "kilometers": 204.54,
+      "week_start": "2023-09-04"
+    },
+    {
+      "kilometers": 162.53,
+      "week_start": "2023-09-11"
+    },
+    {
+      "kilometers": 363.33,
+      "week_start": "2023-09-18"
+    },
+    {
+      "kilometers": 439.81,
+      "week_start": "2023-09-25"
+    },
+    {
+      "kilometers": 214.01,
+      "week_start": "2023-10-02"
+    },
+    {
+      "kilometers": 152.76,
+      "week_start": "2023-10-09"
+    },
+    {
+      "kilometers": 143.97,
+      "week_start": "2023-10-16"
+    },
+    {
+      "kilometers": 196.87,
+      "week_start": "2023-10-23"
+    },
+    {
+      "kilometers": 100.24,
+      "week_start": "2023-10-30"
+    },
+    {
+      "kilometers": 113.16,
+      "week_start": "2023-11-06"
+    },
+    {
+      "kilometers": 184.86,
+      "week_start": "2023-11-13"
+    },
+    {
+      "kilometers": 20.56,
+      "week_start": "2023-11-20"
+    },
+    {
+      "kilometers": 84.48,
+      "week_start": "2023-12-04"
+    },
+    {
+      "kilometers": 99.02,
+      "week_start": "2023-12-11"
+    },
+    {
+      "kilometers": 24.25,
+      "week_start": "2023-12-18"
+    },
+    {
+      "kilometers": 52.12,
+      "week_start": "2024-01-01"
+    },
+    {
+      "kilometers": 89.97,
+      "week_start": "2024-01-08"
+    },
+    {
+      "kilometers": 74.39,
+      "week_start": "2024-01-22"
+    },
+    {
+      "kilometers": 116.15,
+      "week_start": "2024-01-29"
+    },
+    {
+      "kilometers": 115.94,
+      "week_start": "2024-02-05"
+    },
+    {
+      "kilometers": 214.48,
+      "week_start": "2024-02-12"
+    },
+    {
+      "kilometers": 134.1,
+      "week_start": "2024-02-19"
+    },
+    {
+      "kilometers": 119.47,
+      "week_start": "2024-02-26"
+    },
+    {
+      "kilometers": 126.41,
+      "week_start": "2024-03-11"
+    },
+    {
+      "kilometers": 148.21,
+      "week_start": "2024-03-25"
+    },
+    {
+      "kilometers": 134.95,
+      "week_start": "2024-04-01"
+    },
+    {
+      "kilometers": 98.68,
+      "week_start": "2024-04-08"
+    },
+    {
+      "kilometers": 156.28,
+      "week_start": "2024-04-15"
+    },
+    {
+      "kilometers": 171.71,
+      "week_start": "2024-04-22"
+    },
+    {
+      "kilometers": 264.64,
+      "week_start": "2024-04-29"
+    },
+    {
+      "kilometers": 308.99,
+      "week_start": "2024-05-06"
+    },
+    {
+      "kilometers": 326.4,
+      "week_start": "2024-05-13"
+    },
+    {
+      "kilometers": 424.34,
+      "week_start": "2024-05-20"
+    },
+    {
+      "kilometers": 352.9,
+      "week_start": "2024-05-27"
+    },
+    {
+      "kilometers": 356.73,
+      "week_start": "2024-06-03"
+    },
+    {
+      "kilometers": 563.14,
+      "week_start": "2024-06-10"
+    },
+    {
+      "kilometers": 542.05,
+      "week_start": "2024-06-17"
+    },
+    {
+      "kilometers": 557.83,
+      "week_start": "2024-06-24"
+    },
+    {
+      "kilometers": 598.25,
+      "week_start": "2024-07-01"
+    },
+    {
+      "kilometers": 354.88,
+      "week_start": "2024-07-08"
+    },
+    {
+      "kilometers": 398.04,
+      "week_start": "2024-07-15"
+    },
+    {
+      "kilometers": 377.09,
+      "week_start": "2024-07-22"
+    },
+    {
+      "kilometers": 97.19,
+      "week_start": "2024-07-29"
+    },
+    {
+      "kilometers": 358.65,
+      "week_start": "2024-08-05"
+    },
+    {
+      "kilometers": 161.8,
+      "week_start": "2024-08-12"
+    },
+    {
+      "kilometers": 390.49,
+      "week_start": "2024-08-19"
+    },
+    {
+      "kilometers": 326.92,
+      "week_start": "2024-08-26"
+    },
+    {
+      "kilometers": 439.28,
+      "week_start": "2024-09-02"
+    },
+    {
+      "kilometers": 426.04,
+      "week_start": "2024-09-09"
+    },
+    {
+      "kilometers": 493.02,
+      "week_start": "2024-09-16"
+    },
+    {
+      "kilometers": 213.27,
+      "week_start": "2024-09-23"
+    },
+    {
+      "kilometers": 225.6,
+      "week_start": "2024-09-30"
+    },
+    {
+      "kilometers": 302.3,
+      "week_start": "2024-10-07"
+    },
+    {
+      "kilometers": 29.16,
+      "week_start": "2024-10-14"
+    },
+    {
+      "kilometers": 253.89,
+      "week_start": "2024-10-21"
+    },
+    {
+      "kilometers": 206.23,
+      "week_start": "2024-10-28"
+    },
+    {
+      "kilometers": 265.13,
+      "week_start": "2024-11-04"
+    },
+    {
+      "kilometers": 205.73,
+      "week_start": "2024-11-11"
+    },
+    {
+      "kilometers": 175.42,
+      "week_start": "2024-11-18"
+    },
+    {
+      "kilometers": 154.23,
+      "week_start": "2024-11-25"
+    },
+    {
+      "kilometers": 207.56,
+      "week_start": "2024-12-02"
+    },
+    {
+      "kilometers": 206.66,
+      "week_start": "2024-12-09"
+    },
+    {
+      "kilometers": 246.14,
+      "week_start": "2024-12-16"
+    },
+    {
+      "kilometers": 99.74,
+      "week_start": "2025-01-06"
+    },
+    {
+      "kilometers": 109.41,
+      "week_start": "2025-01-13"
+    },
+    {
+      "kilometers": 50.17,
+      "week_start": "2025-02-03"
+    },
+    {
+      "kilometers": 262.28,
+      "week_start": "2025-02-17"
+    },
+    {
+      "kilometers": 612.94,
+      "week_start": "2025-02-24"
+    },
+    {
+      "kilometers": 253.41,
+      "week_start": "2025-03-03"
+    },
+    {
+      "kilometers": 181.08,
+      "week_start": "2025-03-10"
+    },
+    {
+      "kilometers": 258.45,
+      "week_start": "2025-03-17"
+    },
+    {
+      "kilometers": 166.78,
+      "week_start": "2025-03-24"
+    },
+    {
+      "kilometers": 356.11,
+      "week_start": "2025-03-31"
+    },
+    {
+      "kilometers": 233.63,
+      "week_start": "2025-04-07"
+    },
+    {
+      "kilometers": 421.49,
+      "week_start": "2025-04-14"
+    },
+    {
+      "kilometers": 488.4,
+      "week_start": "2025-04-21"
+    },
+    {
+      "kilometers": 507.72,
+      "week_start": "2025-04-28"
+    },
+    {
+      "kilometers": 526.49,
+      "week_start": "2025-05-05"
+    },
+    {
+      "kilometers": 538.51,
+      "week_start": "2025-05-12"
+    },
+    {
+      "kilometers": 521.55,
+      "week_start": "2025-05-19"
+    },
+    {
+      "kilometers": 524.19,
+      "week_start": "2025-05-26"
+    },
+    {
+      "kilometers": 247.36,
+      "week_start": "2025-06-02"
+    },
+    {
+      "kilometers": 1068.59,
+      "week_start": "2025-06-09"
+    },
+    {
+      "kilometers": 1465.98,
+      "week_start": "2025-06-16"
+    },
+    {
+      "kilometers": 443.21,
+      "week_start": "2025-06-23"
+    },
+    {
+      "kilometers": 390.89,
+      "week_start": "2025-06-30"
+    },
+    {
+      "kilometers": 329.24,
+      "week_start": "2025-07-07"
+    },
+    {
+      "kilometers": 476.65,
+      "week_start": "2025-07-14"
+    },
+    {
+      "kilometers": 325.82,
+      "week_start": "2025-07-21"
+    },
+    {
+      "kilometers": 321.6,
+      "week_start": "2025-07-28"
+    },
+    {
+      "kilometers": 307.47,
+      "week_start": "2025-08-04"
+    },
+    {
+      "kilometers": 501.83,
+      "week_start": "2025-08-11"
+    },
+    {
+      "kilometers": 280.13,
+      "week_start": "2025-08-18"
+    },
+    {
+      "kilometers": 310.01,
+      "week_start": "2025-08-25"
+    },
+    {
+      "kilometers": 145.7,
+      "week_start": "2025-09-01"
+    },
+    {
+      "kilometers": 264.43,
+      "week_start": "2025-09-08"
+    },
+    {
+      "kilometers": 284.12,
+      "week_start": "2025-09-15"
+    },
+    {
+      "kilometers": 257.6,
+      "week_start": "2025-09-22"
+    },
+    {
+      "kilometers": 256.71,
+      "week_start": "2025-09-29"
+    },
+    {
+      "kilometers": 174.95,
+      "week_start": "2025-10-06"
+    },
+    {
+      "kilometers": 159.8,
+      "week_start": "2025-10-13"
+    },
+    {
+      "kilometers": 190.2,
+      "week_start": "2025-10-20"
+    },
+    {
+      "kilometers": 61.92,
+      "week_start": "2025-10-27"
+    },
+    {
+      "kilometers": 106.32,
+      "week_start": "2025-11-03"
+    },
+    {
+      "kilometers": 49.5,
+      "week_start": "2025-11-10"
+    },
+    {
+      "kilometers": 43.39,
+      "week_start": "2025-11-17"
+    },
+    {
+      "kilometers": 94.38,
+      "week_start": "2026-01-05"
+    },
+    {
+      "kilometers": 68.02,
+      "week_start": "2026-02-09"
+    },
+    {
+      "kilometers": 383.51,
+      "week_start": "2026-02-16"
+    },
+    {
+      "kilometers": 62.69,
+      "week_start": "2026-02-23"
+    },
+    {
+      "kilometers": 104.09,
+      "week_start": "2026-03-02"
+    },
+    {
+      "kilometers": 185.87,
+      "week_start": "2026-03-09"
+    },
+    {
+      "kilometers": 166.71,
+      "week_start": "2026-03-16"
+    },
+    {
+      "kilometers": 149.01,
+      "week_start": "2026-03-23"
+    },
+    {
+      "kilometers": 271.74,
+      "week_start": "2026-03-30"
+    }
+  ],
+  "ytd_ride_totals": {
+    "count": 24,
+    "distance": 1486.01,
+    "moving_time": 260746,
+    "elapsed_time": 373536,
+    "elevation_gain": 15852,
+    "achievement_count": null
+  }
+}
