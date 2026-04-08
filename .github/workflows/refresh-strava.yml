@@ -58,9 +58,10 @@ jobs:
 
       - name: Publish snapshot to snapshot branch
         env:
-          SNAPSHOT_BRANCH: ${{ vars.SNAPSHOT_BRANCH || 'strava-snapshots' }}
+          SNAPSHOT_BRANCH: ${{ vars.SNAPSHOT_BRANCH }}
         run: |
           set -euo pipefail
+          SNAPSHOT_BRANCH="${SNAPSHOT_BRANCH:-strava-snapshots}"
           cp strava-stats.json /tmp/strava-stats.json
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
