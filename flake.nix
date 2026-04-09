@@ -60,7 +60,7 @@
             {
               src = ./.;
               nativeBuildInputs = [
-                pkgs.bash
+                pkgs.bats
                 pkgs.git
                 publishSnapshotScript
               ];
@@ -70,7 +70,7 @@
               chmod -R u+w source
               cd source
               SCRIPT_PATH="${lib.getExe publishSnapshotScript}" \
-                bash tests/publish-snapshot-branch.bash
+                bats tests/publish-snapshot-branch.bats
               mkdir -p "$out"
             '';
         };
