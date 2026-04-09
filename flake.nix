@@ -14,8 +14,18 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        lib = pkgs.lib;
         dotnetSdk = pkgs.dotnetCorePackages.sdk_10_0-bin;
         dotnetRuntime = pkgs.dotnetCorePackages.runtime_10_0-bin;
+        publishSnapshotScript = pkgs.writeShellApplication {
+          name = "publish-snapshot-branch";
+          runtimeInputs = [
+            pkgs.coreutils
+            pkgs.findutils
+            pkgs.git
+          ];
+          text = builtins.readFile ./scripts/publish-snapshot-branch.sh;
+        };
       in
       {
         packages.default = pkgs.buildDotnetModule {
@@ -41,12 +51,38 @@
           selfContainedBuild = false;
           testProjectFile = "tests/StravaFetcher.Tests/StravaFetcher.Tests.fsproj";
         };
+        packages.publish-snapshot-branch = publishSnapshotScript;
 
-        checks.default = self.packages.${system}.default;
+        checks = {
+          default = self.packages.${system}.default;
+          publish-snapshot-script = pkgs.runCommand "publish-snapshot-script-test"
+            {
+              src = ./.;
+              nativeBuildInputs = [
+                pkgs.bash
+                pkgs.git
+                publishSnapshotScript
+              ];
+            }
+            ''
+              cp -R --no-preserve=mode,ownership "$src" source
+              chmod -R u+w source
+              cd source
+              SCRIPT_PATH="${lib.getExe publishSnapshotScript}" \
+                bash tests/publish-snapshot-branch.bash
+              mkdir -p "$out"
+            '';
+        };
 
-        apps.default = {
-          type = "app";
-          program = "${self.packages.${system}.default}/bin/StravaFetcher.Cli";
+        apps = {
+          default = {
+            type = "app";
+            program = "${self.packages.${system}.default}/bin/StravaFetcher.Cli";
+          };
+          publish-snapshot-branch = {
+            type = "app";
+            program = lib.getExe publishSnapshotScript;
+          };
         };
 
         devShells.default = pkgs.mkShell {
