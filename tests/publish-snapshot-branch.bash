@@ -123,10 +123,38 @@ test_skips_commit_when_json_is_unchanged() {
 	second_head="$(run_git "${bare_repo}" rev-parse strava-snapshots)"
 
 	assert_eq "${first_head}" "${second_head}" "snapshot branch head should stay unchanged"
-	assert_contains "${stdout}" "No JSON changes detected; skipping commit" "second run should skip commit"
+	assert_contains "${stdout}" "No meaningful JSON changes detected; skipping commit" "second run should skip commit"
+}
+
+test_skips_commit_when_only_fetched_at_changes() {
+	local bare_repo
+	local work_repo
+	local first_head
+	local second_head
+	local stdout
+
+	mapfile -t repos < <(create_repo_with_origin)
+	bare_repo="${repos[0]}"
+	work_repo="${repos[1]}"
+
+	cat >"${work_repo}/strava-stats.json" <<'EOF'
+{"athlete_id":42,"fetched_at":"2026-04-09T00:00:00Z","weekly_ride_kilometers":[],"weekly_ride_hours":[],"annual_ride_totals":[]}
+EOF
+	run_publish "${work_repo}" >/dev/null
+	first_head="$(run_git "${bare_repo}" rev-parse strava-snapshots)"
+
+	cat >"${work_repo}/strava-stats.json" <<'EOF'
+{"athlete_id":42,"fetched_at":"2026-04-10T00:00:00Z","weekly_ride_kilometers":[],"weekly_ride_hours":[],"annual_ride_totals":[]}
+EOF
+	stdout="$(run_publish "${work_repo}")"
+	second_head="$(run_git "${bare_repo}" rev-parse strava-snapshots)"
+
+	assert_eq "${first_head}" "${second_head}" "snapshot branch head should stay unchanged when only fetched_at changes"
+	assert_contains "${stdout}" "No meaningful JSON changes detected; skipping commit" "fetched_at-only change should skip commit"
 }
 
 test_creates_snapshot_branch
 test_skips_commit_when_json_is_unchanged
+test_skips_commit_when_only_fetched_at_changes
 
 echo "publish-snapshot-branch tests passed"

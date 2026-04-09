@@ -23,6 +23,7 @@
             pkgs.coreutils
             pkgs.findutils
             pkgs.git
+            pkgs.jq
           ];
           text = builtins.readFile ./scripts/publish-snapshot-branch.sh;
         };

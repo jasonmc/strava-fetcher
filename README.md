@@ -142,6 +142,7 @@ Repository Actions workflow permissions should be set to `Read and write permiss
 Important behavior:
 
 - The workflow preserves the latest rotated refresh token by updating the repo secret immediately after a successful fetch, before publishing to the snapshot branch. That prevents later scheduled runs from breaking even if the push step fails.
+- The workflow ignores `fetched_at` when deciding whether the snapshot changed, so unchanged data does not create a no-op commit just because the fetch time advanced.
 - The workflow commits only when `strava-stats.json` changed.
 - The workflow does not force-push.
 - The workflow fails if `git push` fails.
