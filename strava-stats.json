@@ -1,10 +1,10 @@
 {
   "all_ride_totals": {
-    "count": 2517,
-    "distance": 94259.34,
-    "moving_time": 15725724,
-    "elapsed_time": 26536138,
-    "elevation_gain": 813412.2,
+    "count": 2520,
+    "distance": 94432.66,
+    "moving_time": 15755757,
+    "elapsed_time": 26579314,
+    "elevation_gain": 815464.2,
     "achievement_count": null
   },
   "annual_ride_totals": [
@@ -86,23 +86,23 @@
       "year": 2025
     },
     {
-      "elevation": 15852,
-      "hours": 72.43,
-      "kilometers": 1486.01,
-      "rides": 24,
+      "elevation": 17904,
+      "hours": 80.77,
+      "kilometers": 1659.33,
+      "rides": 27,
       "year": 2026
     }
   ],
   "athlete_id": 11045355,
   "biggest_climb_elevation_gain": 904,
   "biggest_ride_distance": 370.85,
-  "fetched_at": "2026-04-13T08:25:27.9296034\u002B00:00",
+  "fetched_at": "2026-04-14T08:06:56.3351263\u002B00:00",
   "recent_ride_totals": {
-    "count": 9,
-    "distance": 587.46,
-    "moving_time": 97788,
-    "elapsed_time": 147412,
-    "elevation_gain": 5656,
+    "count": 12,
+    "distance": 760.78,
+    "moving_time": 127821,
+    "elapsed_time": 190588,
+    "elevation_gain": 7708,
     "achievement_count": 0
   },
   "weekly_ride_hours": [
@@ -1909,6 +1909,14 @@
     {
       "hours": 11.76,
       "week_start": "2026-03-30"
+    },
+    {
+      "hours": 7.33,
+      "week_start": "2026-04-06"
+    },
+    {
+      "hours": 1.01,
+      "week_start": "2026-04-13"
     }
   ],
   "weekly_ride_kilometers": [
@@ -3715,14 +3723,22 @@
     {
       "kilometers": 271.74,
       "week_start": "2026-03-30"
+    },
+    {
+      "kilometers": 158.04,
+      "week_start": "2026-04-06"
+    },
+    {
+      "kilometers": 15.28,
+      "week_start": "2026-04-13"
     }
   ],
   "ytd_ride_totals": {
-    "count": 24,
-    "distance": 1486.01,
-    "moving_time": 260746,
-    "elapsed_time": 373536,
-    "elevation_gain": 15852,
+    "count": 27,
+    "distance": 1659.33,
+    "moving_time": 290779,
+    "elapsed_time": 416712,
+    "elevation_gain": 17904,
     "achievement_count": null
   }
 }
