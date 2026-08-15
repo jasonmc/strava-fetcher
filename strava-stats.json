@@ -1,10 +1,10 @@
 {
   "all_ride_totals": {
-    "count": 2633,
-    "distance": 99822.25,
-    "moving_time": 16569077,
-    "elapsed_time": 27866671,
-    "elevation_gain": 863424.3,
+    "count": 2634,
+    "distance": 99871.52,
+    "moving_time": 16575211,
+    "elapsed_time": 27875037,
+    "elevation_gain": 863754.3,
     "achievement_count": null
   },
   "annual_ride_totals": [
@@ -86,23 +86,23 @@
       "year": 2025
     },
     {
-      "elevation": 65864.1,
-      "hours": 306.69,
-      "kilometers": 7048.92,
-      "rides": 140,
+      "elevation": 66194.1,
+      "hours": 308.4,
+      "kilometers": 7098.2,
+      "rides": 141,
       "year": 2026
     }
   ],
   "athlete_id": 11045355,
   "biggest_climb_elevation_gain": 904,
   "biggest_ride_distance": 370.85,
-  "fetched_at": "2026-08-12T07:55:32.8961685\u002B00:00",
+  "fetched_at": "2026-08-15T07:00:15.1084311\u002B00:00",
   "recent_ride_totals": {
-    "count": 24,
-    "distance": 1230.58,
-    "moving_time": 177440,
-    "elapsed_time": 251768,
-    "elevation_gain": 11247,
+    "count": 25,
+    "distance": 1279.86,
+    "moving_time": 183574,
+    "elapsed_time": 260134,
+    "elevation_gain": 11577,
     "achievement_count": 0
   },
   "weekly_ride_hours": [
@@ -1983,7 +1983,7 @@
       "week_start": "2026-08-03"
     },
     {
-      "hours": 1.64,
+      "hours": 3.34,
       "week_start": "2026-08-10"
     }
   ],
@@ -3865,16 +3865,16 @@
       "week_start": "2026-08-03"
     },
     {
-      "kilometers": 48.41,
+      "kilometers": 97.69,
       "week_start": "2026-08-10"
     }
   ],
   "ytd_ride_totals": {
-    "count": 140,
-    "distance": 7048.92,
-    "moving_time": 1104099,
-    "elapsed_time": 1704069,
-    "elevation_gain": 65864.1,
+    "count": 141,
+    "distance": 7098.19,
+    "moving_time": 1110233,
+    "elapsed_time": 1712435,
+    "elevation_gain": 66194.1,
     "achievement_count": null
   }
 }
