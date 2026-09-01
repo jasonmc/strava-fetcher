@@ -96,13 +96,13 @@
   "athlete_id": 11045355,
   "biggest_climb_elevation_gain": 904,
   "biggest_ride_distance": 370.85,
-  "fetched_at": "2026-08-31T13:56:52.0618857\u002B00:00",
+  "fetched_at": "2026-09-01T11:43:30.3147835\u002B00:00",
   "recent_ride_totals": {
-    "count": 26,
-    "distance": 1238.39,
-    "moving_time": 184338,
-    "elapsed_time": 290688,
-    "elevation_gain": 10266,
+    "count": 25,
+    "distance": 1229.1,
+    "moving_time": 182277,
+    "elapsed_time": 280732,
+    "elevation_gain": 10227,
     "achievement_count": 0
   },
   "weekly_ride_hours": [
