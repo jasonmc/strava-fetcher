@@ -1,10 +1,10 @@
 {
   "all_ride_totals": {
-    "count": 2681,
-    "distance": 102007.29,
-    "moving_time": 16903518,
-    "elapsed_time": 28416434,
-    "elevation_gain": 882129.3,
+    "count": 2684,
+    "distance": 102176.2,
+    "moving_time": 16932990,
+    "elapsed_time": 28466827,
+    "elevation_gain": 884126.3,
     "achievement_count": null
   },
   "annual_ride_totals": [
@@ -86,24 +86,24 @@
       "year": 2025
     },
     {
-      "elevation": 84569.1,
-      "hours": 399.59,
-      "kilometers": 9233.97,
-      "rides": 188,
+      "elevation": 86566.1,
+      "hours": 407.78,
+      "kilometers": 9402.87,
+      "rides": 191,
       "year": 2026
     }
   ],
   "athlete_id": 11045355,
   "biggest_climb_elevation_gain": 904,
   "biggest_ride_distance": 370.85,
-  "fetched_at": "2026-10-25T11:36:40.1683851\u002B00:00",
+  "fetched_at": "2026-11-03T14:20:57.4560646\u002B00:00",
   "recent_ride_totals": {
-    "count": 6,
-    "distance": 346.65,
-    "moving_time": 55255,
-    "elapsed_time": 85286,
-    "elevation_gain": 3316,
-    "achievement_count": 26
+    "count": 9,
+    "distance": 515.55,
+    "moving_time": 84727,
+    "elapsed_time": 135679,
+    "elevation_gain": 5313,
+    "achievement_count": 33
   },
   "weekly_ride_hours": [
     {
@@ -2013,6 +2013,14 @@
     {
       "hours": 9.4,
       "week_start": "2026-10-12"
+    },
+    {
+      "hours": 6.84,
+      "week_start": "2026-10-19"
+    },
+    {
+      "hours": 1.35,
+      "week_start": "2026-10-26"
     }
   ],
   "weekly_ride_kilometers": [
@@ -3923,14 +3931,22 @@
     {
       "kilometers": 216.93,
       "week_start": "2026-10-12"
+    },
+    {
+      "kilometers": 144.54,
+      "week_start": "2026-10-19"
+    },
+    {
+      "kilometers": 24.37,
+      "week_start": "2026-10-26"
     }
   ],
   "ytd_ride_totals": {
-    "count": 188,
-    "distance": 9233.96,
-    "moving_time": 1438540,
-    "elapsed_time": 2253832,
-    "elevation_gain": 84569.1,
+    "count": 191,
+    "distance": 9402.87,
+    "moving_time": 1468012,
+    "elapsed_time": 2304225,
+    "elevation_gain": 86566.1,
     "achievement_count": null
   }
 }
